@@ -1,0 +1,102 @@
+#/***********************************************************************
+# * Licensed Materials - Property of IBM 
+# *
+# * IBM SPSS Products: Statistics Common
+# *
+# * (C) Copyright IBM Corp. 1989, 2014
+# *
+# * US Government Users Restricted Rights - Use, duplication or disclosure
+# * restricted by GSA ADP Schedule Contract with IBM Corp. 
+# ************************************************************************/
+
+# NLS_ENCODING=UTF-8
+# IBMUPYTH
+
+
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR ORGANIZATION
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2014-05-21 17:51+China Standard Time\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: ENCODING\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+#: SPSSINC_TRANS.py:278
+msgid "---"
+msgstr ""
+"---"
+
+#: SPSSINC_TRANS.py:398
+msgid "The formula specified a class, but the class did not produce a suitable function to call"
+msgstr ""
+"A fórmula especificou uma classe, mas a classe não produziu uma função adequada para ser chamada"
+
+#: SPSSINC_TRANS.py:402
+msgid ""
+"The formula references an undefined variable or could not be evaluated:\n"
+msgstr ""
+"A fórmula faz referência a uma variável indefinida ou não pôde ser avaliada:\n"
+
+#: SPSSINC_TRANS.py:410
+msgid "Function returned too many values.  Number expected: %s"
+msgstr ""
+"A função retornou muitos valores. Número esperado: %s"
+
+#: SPSSINC_TRANS.py:440
+msgid ""
+"The specified function or class was given without a module name\nand was not found in a previous BEGIN PROGRAM block \nand is not a built-in function: "
+msgstr ""
+"A função ou classe especificada foi fornecida sem um nome de módulo\n e não foi localizada em um bloco BEGIN PROGRAM anterior\ne não é uma função integrada: "
+
+#: SPSSINC_TRANS.py:466
+msgid ""
+"The formula syntax given is invalid:\n"
+msgstr ""
+"A sintaxe da fórmula especificada é inválida:\n"
+
+#: SPSSINC_TRANS.py:491
+msgid "Error: the expression is invalid.  Check for unbalanced parentheses or quotes or a missing =: %s"
+msgstr ""
+"Erro: a expressão é inválida. Verifique se há parênteses ou aspas não balanceados ou um = omisso: %s"
+
+#: SPSSINC_TRANS.py:534
+msgid "The number of variable type values differs from the number of result variables"
+msgstr ""
+"O número de valores de tipo de variável difere do número de variáveis de resultado"
+
+#: SPSSINC_TRANS.py:549
+msgid "Either neither or both names must exist in TO"
+msgstr ""
+"Nenhum ou ambos os nomes devem existir em TO"
+
+#: SPSSINC_TRANS.py:552
+msgid "Variables in TO are not in file order: %s, %s"
+msgstr ""
+"As variáveis em TO não estão na ordem do arquivo: %s, %s"
+
+#: SPSSINC_TRANS.py:568
+msgid "TO cannot start or end the result list"
+msgstr ""
+"TO não pode iniciar ou terminar a lista de resultados"
+
+#: SPSSINC_TRANS.py:590
+msgid "New variables used with TO must have a numerical suffix"
+msgstr ""
+"Novas variáveis utilizadas com TO devem ter um sufixo numérico"
+
+#: SPSSINC_TRANS.py:594
+msgid "New variables used with TO must have the same prefix and ascending numerical parts: %s, %s"
+msgstr ""
+"Novas variáveis utilizadas com TO devem ter o mesmo prefixo e partes numéricas crescentes: %s, %s"
+
+
+
