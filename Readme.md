@@ -1,5 +1,5 @@
 # SPSSINC TRANS
-## Apply a Python function to case data.
+## Apply a Python function to case data
  This procedure applies a Python function to the cases in 
 
 ---
