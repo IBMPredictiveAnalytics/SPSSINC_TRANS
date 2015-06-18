@@ -1,0 +1,102 @@
+#/***********************************************************************
+# * Licensed Materials - Property of IBM 
+# *
+# * IBM SPSS Products: Statistics Common
+# *
+# * (C) Copyright IBM Corp. 1989, 2014
+# *
+# * US Government Users Restricted Rights - Use, duplication or disclosure
+# * restricted by GSA ADP Schedule Contract with IBM Corp. 
+# ************************************************************************/
+
+# NLS_ENCODING=UTF-8
+# IBMUPYTH
+
+
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR ORGANIZATION
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2014-05-21 17:51+China Standard Time\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: ENCODING\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+#: SPSSINC_TRANS.py:278
+msgid "---"
+msgstr ""
+"---"
+
+#: SPSSINC_TRANS.py:398
+msgid "The formula specified a class, but the class did not produce a suitable function to call"
+msgstr ""
+"式はクラスを指定しましたが、クラスはコールするのに適切な関数を作成しませんでした。"
+
+#: SPSSINC_TRANS.py:402
+msgid ""
+"The formula references an undefined variable or could not be evaluated:\n"
+msgstr ""
+"数式が定義されていない変数を示しているか、評価できません\n"
+
+#: SPSSINC_TRANS.py:410
+msgid "Function returned too many values.  Number expected: %s"
+msgstr ""
+"関数が返した値が多すぎます。  予期される数値 %s"
+
+#: SPSSINC_TRANS.py:440
+msgid ""
+"The specified function or class was given without a module name\nand was not found in a previous BEGIN PROGRAM block \nand is not a built-in function: "
+msgstr ""
+"指定された関数またはクラスが、モジュール名なしで指定されました。\n以前の BEGIN PROGRAM ブロックにありませんでした。\n組み込み関数ではありません:"
+
+#: SPSSINC_TRANS.py:466
+msgid ""
+"The formula syntax given is invalid:\n"
+msgstr ""
+"指定された数式シンタックスが無効です\n"
+
+#: SPSSINC_TRANS.py:491
+msgid "Error: the expression is invalid.  Check for unbalanced parentheses or quotes or a missing =: %s"
+msgstr ""
+"エラー: 式が無効です。  不均衡な括弧または引用符または欠損値をチェックします =: %s"
+
+#: SPSSINC_TRANS.py:534
+msgid "The number of variable type values differs from the number of result variables"
+msgstr ""
+"変数タイプ値の数が結果変数の数と異なります。"
+
+#: SPSSINC_TRANS.py:549
+msgid "Either neither or both names must exist in TO"
+msgstr ""
+"TO 内にはどちらの名前も存在しないか、両方の名前が存在する必要があります"
+
+#: SPSSINC_TRANS.py:552
+msgid "Variables in TO are not in file order: %s, %s"
+msgstr ""
+"TO 内の変数はファイル順ではありません: %s、%s"
+
+#: SPSSINC_TRANS.py:568
+msgid "TO cannot start or end the result list"
+msgstr ""
+"TO が結果リストを開始または終了できません"
+
+#: SPSSINC_TRANS.py:590
+msgid "New variables used with TO must have a numerical suffix"
+msgstr ""
+"TO で使用される新規変数は、数値接尾辞を持つ必要があります"
+
+#: SPSSINC_TRANS.py:594
+msgid "New variables used with TO must have the same prefix and ascending numerical parts: %s, %s"
+msgstr ""
+"TO で使用される新規変数は、同じ接頭辞および昇順の数値部分を持つ必要があります: %s、%s"
+
+
+
