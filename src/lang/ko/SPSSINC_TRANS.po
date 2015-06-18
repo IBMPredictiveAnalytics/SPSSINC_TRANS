@@ -1,0 +1,102 @@
+#/***********************************************************************
+# * Licensed Materials - Property of IBM 
+# *
+# * IBM SPSS Products: Statistics Common
+# *
+# * (C) Copyright IBM Corp. 1989, 2014
+# *
+# * US Government Users Restricted Rights - Use, duplication or disclosure
+# * restricted by GSA ADP Schedule Contract with IBM Corp. 
+# ************************************************************************/
+
+# NLS_ENCODING=UTF-8
+# IBMUPYTH
+
+
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR ORGANIZATION
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2014-05-21 17:51+China Standard Time\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: ENCODING\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+#: SPSSINC_TRANS.py:278
+msgid "---"
+msgstr ""
+"---"
+
+#: SPSSINC_TRANS.py:398
+msgid "The formula specified a class, but the class did not produce a suitable function to call"
+msgstr ""
+"수식에서 클래스를 지정하지만 호출할 적절한 함수를 클래스가 생성하지 않았습니다."
+
+#: SPSSINC_TRANS.py:402
+msgid ""
+"The formula references an undefined variable or could not be evaluated:\n"
+msgstr ""
+"수식 참조가 정의되지 않은 변수이거나 계산할 수 없음:\n"
+
+#: SPSSINC_TRANS.py:410
+msgid "Function returned too many values.  Number expected: %s"
+msgstr ""
+"함수에서 너무 많은 값을 반환했습니다.  필요한 수: %s"
+
+#: SPSSINC_TRANS.py:440
+msgid ""
+"The specified function or class was given without a module name\nand was not found in a previous BEGIN PROGRAM block \nand is not a built-in function: "
+msgstr ""
+"지정된 함수 또는 클래스에 모듈 이름이 없고\n이전 BEGIN PROGRAM 블록에 없으며\n기본 제공 함수가 아닙니다."
+
+#: SPSSINC_TRANS.py:466
+msgid ""
+"The formula syntax given is invalid:\n"
+msgstr ""
+"지정한 수식 명령문이 잘못되었음:\n"
+
+#: SPSSINC_TRANS.py:491
+msgid "Error: the expression is invalid.  Check for unbalanced parentheses or quotes or a missing =: %s"
+msgstr ""
+"오류: 표현식이 잘못되었습니다.  괄호 또는 따옴표의 짝이 맞지 않는지 또는 =가 없는지 확인합니다: %s"
+
+#: SPSSINC_TRANS.py:534
+msgid "The number of variable type values differs from the number of result variables"
+msgstr ""
+"변수 유형 값 수가 결과 변수 수와 다릅니다."
+
+#: SPSSINC_TRANS.py:549
+msgid "Either neither or both names must exist in TO"
+msgstr ""
+"두 이름 모두 TO에 존재하거나 존재하지 않아야 합니다."
+
+#: SPSSINC_TRANS.py:552
+msgid "Variables in TO are not in file order: %s, %s"
+msgstr ""
+"TO의 변수가 파일 순서에 있지 않습니다. %s, %s"
+
+#: SPSSINC_TRANS.py:568
+msgid "TO cannot start or end the result list"
+msgstr ""
+"TO는 결과 목록을 시작하거나 종료할 수 없습니다."
+
+#: SPSSINC_TRANS.py:590
+msgid "New variables used with TO must have a numerical suffix"
+msgstr ""
+"TO와 함께 사용된 새 변수에는 연속 접미문자가 있어야 합니다."
+
+#: SPSSINC_TRANS.py:594
+msgid "New variables used with TO must have the same prefix and ascending numerical parts: %s, %s"
+msgstr ""
+"TO와 함께 사용된 새 변수에는 동일한 접두문자와 오름차순의 연속 파트가 있어야 합니다. %s, %s"
+
+
+
