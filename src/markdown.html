@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<!-- saved from url=(0014)about:internet -->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=9" >
+
+<title>SPSSINC TRANS Extension Command</title>
+
+<link rel="stylesheet" type="text/css" href="extsyntax.css" />
+
+
+
+
+
+</head>
+
+<body>
+<h1>SPSSINC TRANS Extension Command</h1>
+
+<p>Execute a transformation defined as a Python function</p>
+<div class="syntax">
+<p>SPSSINC TRANS RESULT=<em>variables</em><sup>&#42;</sup> TYPE=<em>numbers</em> USERMISSING=ASIS<sup>&#42;</sup> or SYSMIS</p>
+
+<p>/INITIAL <em>i-expression</em></p>
+
+<p>/VARIABLES <em>variables</em></p>
+
+<p>/FORMULA &ldquo;<em>f-expression</em>&rdquo;<sup>&#42;</sup></p>
+
+<p><sup>&#42;</sup> Required<br/>
+<sup>&#42;&#42;</sup> Default</p>
+</div>
+<p>Example:
+Execute the function <em>f</em> in a Python module named <em>mytrans</em> with inputs <em>x</em> and <em>y</em>.</p>
+
+<pre class="example"><code>SPSSINC TRANS RESULT=sum2 TYPE=0
+/FORMULA &quot;mytrans.f(x=salary, y=10000.)&quot;.
+</code></pre>
+
+<p><strong>RESULT</strong> defines the names for the result variables.  Typically there is only one, but
+a function can return multiple values.  If fewer values than requested are returned for a case,
+the values are filled out with sysmis or blank, according to the result type.  If too many values are returned,
+the command stops with an error message.</p>
+
+<p><strong>TO</strong> can be used in the result list with the following rules.  </p>
+
+<ul>
+<li>If the variables in TO exist, TO is expanded in the usual way to that list of variables in file order.</li>
+<li>If the variables do not exist, and they have the same root and numerical suffixes, they are
+expanded in numerical order.  For example,
+<code>a b c01 to c03 d</code>
+expands to
+<code>a b c01 c02 c03 d</code>
+if c01 and c03 do not exist.
+Either both or neither of the TO variables must exist.  Any preexisting variables in the
+expanded list will be replaced.</li>
+</ul>
+
+<p><strong>TYPE</strong> specifies the type codes for the result variables.  0, the default, means numeric.
+Positive integer values mean a string of that length, measured in bytes.  There must be as many type 
+codes as there are result variables, except that the entire list can be omitted if 
+all values are to be numeric, and a single number can be specified to apply to 
+the entire result list.  Types will be changed for existing variables if necessary.</p>
+
+<p>If TO is used in the result list, exactly one type code for the group should be specified if
+a number list is provided.</p>
+
+<p>Type changes happen BEFORE the data are passed, so the Python code 
+should expect to see values in that representation if overwriting existing variables.
+Note that some type changes destroy the values.</p>
+
+<p>System missing values are converted to Python <em>None</em>.  By default, user missing
+values are left as is.  Specify <strong>USERMISSING</strong>=SYSMIS to convert these to the
+sysmis value (<em>None</em>) before calling the formula function.</p>
+
+<p>For Python programmers, a dictionary of user missing values can be accessed as<br/>
+<code>sys.modules[&quot;SPSSINC_TRANS&quot;].MISSINGS</code>.<br/>
+It can be used to work with individual variable missing values like this toy example, which
+just tests a specific variable for any type of missing value.</p>
+
+<pre class="example"><code>begin program.
+from spssdata import ismissing
+def anymissing(x):
+    mvs = sys.modules[&quot;SPSSINC_TRANS&quot;].MISSINGS[&#39;X1&#39;]
+    return  ismissing(x, mvs)
+end program.
+spssinc trans result = x1missing
+/formula &quot;anymissing(X1)&quot;.
+</code></pre>
+
+<p>This only makes sense if USERMISSING = ASIS, since otherwise you can just
+test for None.  That allows for more selective handling of user missings.</p>
+
+<h2>FORMULA</h2>
+
+<p><strong>f-expression</strong> is the formula to evaluate.  It should have the form<br/>
+<code>modulename.function(parm1=value, parm2=value,...)</code><br/>
+where <code>modulename.function</code> is the Python function to call.  This might be from a
+module in the Python library, an SPSS Community module, or any other source.
+If modulename is omitted, the function is assumed to have been defined in
+a previous BEGIN PROGRAM block executed in the current session,
+or via the INITIAL subcommmand, or,
+it can be a built-in Python function.</p>
+
+<p><strong>parm1, parm2, &hellip;</strong> are the names of the function parameters: each value
+is an existing SPSS Statistics variable name, a number, or a literal string in triple quotes.
+Use opposite-style quotes for literals.  E.g., if the literal contains &ldquo;, use &#39;
+to delimit the string.</p>
+
+<p>Literal strings must be enclosed in triple single or double quotes.
+For example, write
+<code>parm1 = &#39;&#39;&#39;abc&quot;def&#39;&#39;&#39;</code></p>
+
+<p>The parameter expression can be made as a Python list containing variable names, number, and/or literals
+by enclosing the items in square brackets.  For example<br/>
+<code>/formula mymodule.myfunc(variables=[x,y,z, 100], parm=&#39;&#39;&#39;a literal&#39;&#39;&#39;)</code><br/>
+where x, y, and z will be interpreted as variables in the active dataset.  </p>
+
+<p>For functions that have parameters that are not named such as many of the built-in functions,
+omit the &quot;name=&rdquo; part of the call, e.g.,<br/>
+<code>/formula max(paeduc, maeduc)</code></p>
+
+<p>More general Python expressions can be used with some limitations. 
+Standard Python operators except / can be used in parameter expressions,
+e.g. parm1=x+y
+as long as they do not reference something that needs to be imported.
+Since the expression must be valid Python syntax, reserved words such
+as in, with, for, def, and class, among others, cannot be used in it.</p>
+
+<p>You can enclose the entire formula in single or double quotes in order to
+use general expressions.  In this case do not use triple quotes around 
+literals but use the opposite type of quotes or double them according
+to Statistics conventions.</p>
+
+<p>The item named as the function can be a suitable class if the class initialization
+parameters are compatible with the call (but see the INITIAL subcommand).  If a class
+is specified, it is constructed on the first case.  It must create an attribute
+named <em>func</em> that is the actual function to be called.  This provides
+a convenient way to initialize parameters.  See the subs function in
+extendedTransforms.py for an example.</p>
+
+<p>Numerical values are by default passed as float values.  If a function requires
+an argument to be an integer, wrap it in the int function.  For example,<br/>
+<code>/FORMULA mod.f(Year = int(2000), ...)</code><br/>
+Remember that the int function does not accept None values, which is what sysmis becomes.</p>
+
+<h2>VARIABLES</h2>
+
+<p>The VARIABLES subcommand can be used to create a Python variable list in 
+the formula or initial expressions that supports SPSS rules.<br/>
+It allows the use of TO according to the rules above for RESULT
+except that all the variables must already exist (since these are inputs).<br/>
+To refer to the variable list in the formula or initial expressions, use
+<code>&lt;&gt;</code> in that expression.  For example,</p>
+
+<pre><code>/VARIABLES= V1 TO V3
+/FORMULA &quot;somefunc(&lt;&gt;, parm=100)&quot;
+</code></pre>
+
+<p>would be interpreted as</p>
+
+<p><code>/FORMULA &quot;somefunc(V1, V2, V3, parm=100)&quot;</code></p>
+
+<p>assuming that V1, V2, and V3 exist.</p>
+
+<h2>INITIAL</h2>
+
+<p><strong>INITIAL</strong> can be used to construct a function, which must be named <em>func</em>, that can be
+used in the f-expression.  The expression must be a class constructor, and it will usually
+have a different parameter list from the evaluation function.  Here is an example
+using the vlookup function in extendedTransforms.</p>
+
+<pre><code>SPSSINC TRANS RESULT=resultcode TYPE=0
+/INITIAL &quot;extendedTransforms.vlookup(key=&#39;key&#39;, value=&#39;value&#39;, dataset=&#39;lookup&#39;)&quot;
+/FORMULA func(x).
+</code></pre>
+
+<p><em>vlookup</em> takes a dataset defining a lookup table with key as the lookup key and value
+as the result.  This class returns the actual lookup function named func which is
+then used in the f-expression.</p>
+
+<p>The automatic constructor call described above can be used, but the likely
+difference in the parameter lists often makes using INITIAL more convenient.
+The i-expression is only called once and does not participate in the case-
+processing loop.</p>
+
+<p>The INITIAL expression cannot refer to SPSS variables as they are undefined
+at this point.  If you use the <code>&quot;&lt;&gt;&quot;</code> construct in the initial call, the <code>&lt;&gt;</code>
+is expanded, but to avoid undefined variables, the list needs to be quoted
+just as would be required if an explicit list of SPSS variables was given.
+For example,<br/>
+<code>/VARIABLES salary salbegin /INITIAL   &quot;C(&#39;&lt;&gt;&#39;)&quot;</code><br/>
+would be expanded to<br/>
+<code>C(&#39;salary, salbegin&#39;)</code><br/>
+and the <code>__init__</code> function could use this as appropriate.  Here is a complete,
+example using an inline class definition.  The result is to
+compute the mean of the listed variables.  In this case, of course,
+the result could be computed more directly.</p>
+
+<pre class="example"><code>begin program.
+class C(object):
+    def __init__(self, *args):
+        self.numvar = len(args[0].split(&quot;,&quot;))
+        def f(*args):
+            return sum(args)/self.numvar
+        self.func = f
+end program.
+
+spssinc trans result=nsum
+/variables salary salbegin
+/INITIAL   &quot;C(&#39;&lt;&gt;&#39;)&quot;
+/FORMULA   &quot;func(&lt;&gt;)&quot;
+</code></pre>
+
+<p>Python escape sequences such as \t are expanded in the final value.  Thus a \t would become
+a tab character.  <strong>LITERALESCAPES</strong>=YES causes these values to be protected with
+an extra backslash (the repr value).  This will, of course, make the string longer.</p>
+
+<p>The capitalization of the module, function, and parameter names must match the
+function definition.</p>
+
+<p>Example:</p>
+
+<pre class="example"><code>SPSSINC TRANS RESULT=datestring TYPE=30
+FORMULA extendedTransforms.datetimetostr(value=adatevar, pattern=&#39;&#39;&#39;%A, %B %d, %Y&#39;&#39;&#39;).
+</code></pre>
+
+<p>This calls the function <em>datetimetostr</em> in the <em>extendedTransforms</em> module, which converts an
+SPSS date value to a string according to the pattern<br/>
+dayname, monthname day-of-month, 4-digit-year 
+and stores the result in the variable <em>datestring</em>, which is made to be a string of length 30.</p>
+
+<p>The parameter names will depend on the particular function called.</p>
+
+<h3>For Function Authors</h3>
+
+<p>A variable named <em>FIRST</em> is set True when the function is first called in case the
+function needs to do some one-time initialization.  It can be accessed as<br/>
+<code>sys.modules[&quot;SPSSINC_TRANS&quot;].FIRST</code></p>
+
+<p>Set it to False on the first call.  Suggested code would resemble this;</p>
+
+<pre class="example"><code>    try:
+        if sys.modules[&quot;SPSSINC_TRANS&quot;].FIRST:
+            print &quot;first call&quot;
+            sys.modules[&quot;SPSSINC_TRANS&quot;].FIRST = False
+    except:
+        pass
+</code></pre>
+
+<p>&copy; Copyright IBM Corp. 1989, 2014</p>
+
+</body>
+
+</html>
+
