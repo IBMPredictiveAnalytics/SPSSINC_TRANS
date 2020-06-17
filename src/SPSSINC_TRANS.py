@@ -3,14 +3,14 @@
 # *
 # * IBM SPSS Products: Statistics Common
 # *
-# * (C) Copyright IBM Corp. 1989, 2014
+# * (C) Copyright IBM Corp. 1989, 2020
 # *
 # * US Government Users Restricted Rights - Use, duplication or disclosure
 # * restricted by GSA ADP Schedule Contract with IBM Corp. 
 # ************************************************************************/
 
 # Extension command for transformation functions
-from __future__ import with_statement
+
 
 __author__  =  'spss, jkp'
 __version__ =  '1.2.4'
@@ -248,7 +248,7 @@ class DataStep(object):
 def Run(args):
     """Execute the SPSSINC TRANSFORM command"""
 
-    args = args[args.keys()[0]]
+    args = args[list(args.keys())[0]]
     ###print args   #debug
 
     oobj = Syntax([
@@ -282,7 +282,7 @@ def Run(args):
             return msg
 
     # A HELP subcommand overrides all else
-    if args.has_key("HELP"):
+    if "HELP" in args:
         #print helptext
         helper()
     else:
@@ -303,7 +303,7 @@ def helper():
     # webbrowser.open seems not to work well
     browser = webbrowser.get()
     if not browser.open_new(helpspec):
-        print("Help file not found:" + helpspec)
+        print(("Help file not found:" + helpspec))
 try:    #override
     from extension import helper
 except:
@@ -400,7 +400,7 @@ def transform(result, formula, vartype=(0,), literalescapes=False, initial=None,
             # loop through the cases calling the function for each case
 
             for i, row in enumerate(ds.cases):
-                for k, v in data.items():
+                for k, v in list(data.items()):
                     try:
                         if usermissing == "sysmis":
                             if ismissing(row[v], MISSINGS[k]):
@@ -421,8 +421,8 @@ def transform(result, formula, vartype=(0,), literalescapes=False, initial=None,
                 try:
                     res = eval(co, params)   # compute the requested values
                 except:
-                    raise ValueError(_("The formula references an undefined variable or could not be evaluated:\n") + str(sys.exc_value))
-                if isinstance(res, (basestring, int, float, type(None))):
+                    raise ValueError(_("The formula references an undefined variable or could not be evaluated:\n") + str(sys.exc_info()[1]))
+                if isinstance(res, (str, int, float, type(None))):
                     res = [res]
                 else:
                     res = list(res)   # function might have returned some complicated object
@@ -466,7 +466,7 @@ and was not found in a previous BEGIN PROGRAM block
 and is not a built-in function: """) + item)
     else:
         modname = ".".join(bf[:-1])
-        exec "from %s import %s as _customfunction" % (modname, bf[-1])
+        exec("from %s import %s as _customfunction" % (modname, bf[-1]))
 
     return co, spssp, modname, _customfunction
 
@@ -487,7 +487,7 @@ def factor(afunc):
             co = compile(afunc, "<string>", "eval")
             spssparams = set(co.co_names)
         except :
-            raise ValueError(_("The formula syntax given is invalid:\n") + str(sys.exc_value))
+            raise ValueError(_("The formula syntax given is invalid:\n") + str(sys.exc_info()[1]))
     else:
         spssparams = set()
         f = afunc
