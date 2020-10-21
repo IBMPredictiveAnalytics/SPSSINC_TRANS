@@ -437,6 +437,23 @@ def transform(result, formula, vartype=(0,), literalescapes=False, initial=None,
                         res[r] = None
                     elif vartype[r] > 0 and res[r] is None:
                         res[r] = ""
+                    # code restored from Python 2 version and modified
+                    # try to coerce return value to the type declared for the result
+                    if (
+                        vartype[r] == 0
+                        and not isinstance(res[r], (float, int))
+                        and not res[r] is None
+                    ):
+                        try:
+                            res[r] = float(res[r])
+                        except:
+                            res[r] = None
+                    if vartype[r] > 0 and not isinstance(res[r], str):
+                        try:
+                            res[r] = str(res[r])
+                        except:
+                            pass
+                    
                     ds.cases[i, resultindexes[r]] = res[r]   # update the dataset
     finally:
         del FIRST    # really should be in finally 
@@ -466,7 +483,8 @@ and was not found in a previous BEGIN PROGRAM block
 and is not a built-in function: """) + item)
     else:
         modname = ".".join(bf[:-1])
-        exec("from %s import %s as _customfunction" % (modname, bf[-1]))
+        _temp = __import__(modname, globals(), locals(), [bf[-1]], 0)
+        _customfunction = _temp.__dict__[bf[-1]]
 
     return co, spssp, modname, _customfunction
 
