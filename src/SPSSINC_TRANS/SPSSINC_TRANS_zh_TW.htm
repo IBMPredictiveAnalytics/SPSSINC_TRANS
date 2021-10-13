@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta http-equiv="Content-Type" content=
+  "text/html; charset=utf-8">
+
+  <title>將 Python 函數套用至觀察值資料</title>
+  <style type="text/css">
+
+  <!-- 
+
+  H1 {font-weight:bold; color:#006699; font-size:125%; }
+  H2 {font-weight:bold; color:#006699; font-size:110%; }
+  TABLE {font-size:100%;}
+
+  /* paragraph tags */
+  .step {text-indent: -1.3em; margin-left:1.3em; margin-top: 0px;}
+  .menuselection {margin-left:10px}
+  .bullet {list-style-type: disc;margin-top:12px; margin-left:36px; text-indent:-1em; }
+  .codeblock {background-color: #ffffe6; display:block; margin-left:5px; padding:5px;}
+
+  /* inline tags */
+  .screen {font-weight:bold; color:#408080}                       /*** used refer to on-screen text ***/
+  .name {font-style: italic}                                                       /*** used to tag names, such as variable names, file names, and so forth ***/
+  .runinhead {font-weight: bold} 
+  .superscript {vertical-align:super; font-size:80%}
+  .subscript {vertical-align:sub; font-size:80%}
+
+
+  --> 
+  </style>
+</head>
+
+<body>
+  <h1>將 Python 函數套用至觀察值資料</h1>此程序將 Python 函數套用至作用中資料集的觀察值中，並將結果儲存至一個以上變數中。變數可以是現有變數或建立的新變數。這可讓您從標準 Python 程式庫、從 Developer Central 模組或者您或其他人建立的模組來點選 Python 函數，就如同這些函數是內建於 IBM® SPSS® Statistics 轉換系統一般。
+
+  <p class="step">若要執行此程序，請從功能表選擇：</p>
+
+  <p class="menuselection">&nbsp;轉換<br>
+  &nbsp;&nbsp;程式設計轉換...</p>
+
+  <p><span class="runinhead">結果變數。</span> 一般來說，一個函數會傳回單一數值或字串值，但多個函數則可針對單一觀察值傳回多個值。為函數將傳回的所有值輸入變數名稱。如果函數為部分或全部觀察值傳回較少的值，則額外變數將為系統遺漏，若為字串，則會是空白。</p>
+
+  <p><span class="runinhead">類型碼。</span> 為每個結果變數輸入類型碼。對於數值變數，輸入 0。對於字串，則輸入長度（以位元組為單位）。</p>
+
+  <p class="bullet">•&nbsp;如果您變更現有變數的類型，其值可能會遺失，因此無法在轉換公式中使用。</p>
+
+  <p><span class="runinhead">轉換公式。</span> 輸入表示式，用於指定要呼叫的模組和函數，以及括在括號中的參數名稱和值。例如，如果您在名為 <em>sample</em> 的模組中擁有名為 <em>f</em> 的函數，且其擁有兩個參數（<em>x</em> 和 <em>y</em>），則您可以寫成</p>
+
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class=
+  "code">sample.f(x=firstvar, y=secondvar)</span></p>
+
+  <p>firstvar 和 secondvar 會是作用中資料集的變數名稱。</p>
+
+  <p class="bullet">•&nbsp;如果您省略模組名稱，則會假設函數在現行階段作業的上一個 BEGIN PROGRAM 區塊中已定義，或者是一個內建 Python 函數。</p>
+
+  <p class="bullet">•&nbsp;如果函數擁有未具名的參數，請在語法中省略 "parm="。</p>
+
+  <p class="bullet">•&nbsp;參數值可以是 IBM SPSS Statistics 變數名稱、數值或字串文字。</p>
+
+  <p class="bullet">•&nbsp;文字必須括在任一類型的三引號中：" 或 '。例如，如果 <em>stringvar</em> 是字串變數且 <em>g</em> 是連接字串的函數</p>
+
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class=
+  "code">sample.g(x=firstvar, y='''-estimate''')</span></p>
+
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;會針對每個觀察值將 <em>-estimate</em> 附加至 <em>firstvar</em> 值。為了在文字中使用與環繞它相同類型的引號，您必須使用雙引號並在前面加上反斜線 - 例如，'abc\''def'。</p>
+
+  <p class="bullet">•&nbsp;將一組值括在方括號中，即可將之作為清單傳遞至函數 - 例如，parm=[x,y,z]。</p>
+
+  <p class="bullet">•&nbsp;模組、函數和參數名稱都會區分大小寫。您必須確實符合所需的大小寫。</p>
+
+  <p class="bullet">•&nbsp;請參閱文件以取得您要用於決定呼叫方式的函數。</p>
+
+  <p><span class="runinhead">起始設定公式。</span> 如果轉換公式涉及需要起始設定的類別（如參考表），請在這裡輸入起始設定表示式。會在傳遞觀察值資料前進行叫用。起始設定預期會產生名為 <i>func</i> 的函數，該函數可在轉換公式中進行參照。</p>
+
+  <p>下列範例套用模組 <i>extendedTransforms</i> 中的 vlookup 函數。該函數需要 IBM SPSS Statistics 資料集，該資料集中包含查詢值和索引鍵及值變數的名稱。若要使用它，您可以輸入這些值來查詢變數 x 的值。</p>
+
+  <p class="bullet">•&nbsp;起始設定：<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;<span class=
+  "code">"extendedTransforms.vlookup(key='keyvar',
+  value='valuevar', dataset='lookup')"</span></p>
+
+  <p class="bullet">•&nbsp;轉換：<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;<span class="code">"func(x)"</span></p>
+
+  <p><span class="runinhead">將使用者遺漏值轉換為系統遺漏</span> 勾選此方框可在呼叫 Python 函數之前將任何使用者遺漏值轉換為系統遺漏。依預設，使用者遺漏值依現狀傳遞。</p>
+
+  <h2>其他功能和資訊</h2>
+
+  <p>此對話框產生 SPSSINC TRANS 延伸指令的語法。若要顯示此指令的說明，請執行下列語法：</p>
+
+  <p class="codeblock">SPSSINC TRANS /HELP。</p>語法提供對 ESC 序列值（例如 \t）的某些其他控制能力。
+
+  <p>語法透過在清單中支援 TO 的 VARIABLES 次指令在公式中提供變數清單的速記和起始表示式。</p>
+
+  <p>雖然此指令操作方式類似於標準 IBM SPSS Statistics 轉換語言，但與 COMPUTE 指令不同，例如，每個 SPSSINC TRANS 指令都需要資料傳遞。此指令不得用於 IBM SPSS Statistics 轉換區塊（如 DO IF）內部。</p>
+
+  <p>對 IBM SPSS Statistics 有用的函數來源之一是可從 Developer Central 取得的 extendedTransforms 模組。例如，其具有的函數</p>
+
+  <ul>
+    <li>與內建日期格式（strtodatetime 和 datetimetostr）相較之下，可更為彈性地在日期字串與日期值之間轉換。</li>
+
+    <li>使用功能強大的型樣語言（subs、templatesubs）或計算型樣 (matchcount) 發生次數，來替代字串變數中的值。</li>
+
+    <li>計算類似發音名稱（soundex、levenshteindistance、jaroWinkler、soundexallvalues）的表示法。</li>
+
+    <li>從查詢表格 (vlookup) 擷取值。</li>
+
+    <li>計算地球（sphDist、ellipseDist）上兩點之間的距離。</li>
+  </ul>在文字編輯器中開啟 extendedTransforms.py 以讀取這些函數的文件。
+
+  <p>Python 數學模組擁有標準轉換未提供的許多實用函數。</p>
+
+  <ul>
+    <li>計算非負整數（因子）的因子</li>
+
+    <li>計算雙曲線三角函數（acosh、asinh、atanh、cosh、sinh、tanh）</li>
+  </ul>您可以開啟 Python 說明並在「內容」畫面中選取「廣域模組索引」，在「Python 標準程式庫索引」中搜尋實用的函數。
+
+  <p>如果類別符合特定需求，則可將類別用作函數。請參閱語法說明，以取得詳細資料。</p>
+
+  <p>一律將 IBM SPSS Statistics 數值以浮點數字的形式傳遞至 Python 程式碼。如果您正在呼叫的函數需要 int 用於 IBM SPSS Statistics 值，則使用 Python int 函數，但請注意，Python 會將 sysmis 值視為 None 值且無法傳遞至 int 函數。</p>
+
+  <p>可將更複雜的表示式用於參數。請參閱語法說明，以取得詳細資料。如果您的表示式非常複雜，您可能需要將整個表示式括在引號中。</p>
+
+  <h2>需求</h2>
+
+  <p>此對話框需要 Integration Plug-In for Python 和 SPSSINC TRANS 延伸指令。對於 IBM SPSS Statistics 19 和更新版本，Plug-In 及延伸指令會隨 Essentials for Python 套件一起安裝。如需相關資訊，請參閱 IBM SPSS Statistics 說明系統中「核心系統」&gt;「常見問題集」下方的「如何取得 Integration Plug-In」。如果您已從 SPSS Community 下載 SPSSINC TRANS 延伸指令，則請遵循相關聯 Readme 檔中的指示。</p><br>
+  <hr>
+
+  <p style="font-size:80%;">© Copyright IBM Corp. 1989, 2013</p>
+</body>
+</html>

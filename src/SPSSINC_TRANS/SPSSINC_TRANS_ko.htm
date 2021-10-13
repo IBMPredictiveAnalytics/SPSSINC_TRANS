@@ -1,0 +1,150 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta http-equiv="Content-Type" content=
+  "text/html; charset=utf-8">
+
+  <title>Python 함수를 케이스 데이터에 적용</title>
+  <style type="text/css">
+
+  <!-- 
+
+  H1 {font-weight:bold; color:#006699; font-size:125%; }
+  H2 {font-weight:bold; color:#006699; font-size:110%; }
+  TABLE {font-size:100%;}
+
+  /* paragraph tags */
+  .step {text-indent: -1.3em; margin-left:1.3em; margin-top: 0px;}
+  .menuselection {margin-left:10px}
+  .bullet {list-style-type: disc;margin-top:12px; margin-left:36px; text-indent:-1em; }
+  .codeblock {background-color: #ffffe6; display:block; margin-left:5px; padding:5px;}
+
+  /* inline tags */
+  .screen {font-weight:bold; color:#408080}                       /*** used refer to on-screen text ***/
+  .name {font-style: italic}                                                       /*** used to tag names, such as variable names, file names, and so forth ***/
+  .runinhead {font-weight: bold} 
+  .superscript {vertical-align:super; font-size:80%}
+  .subscript {vertical-align:sub; font-size:80%}
+
+
+  --> 
+  </style>
+</head>
+
+<body>
+  <h1>Python 함수를 케이스 데이터에 적용</h1>이 프로시저에서는 활성 데이터 세트의 케이스에 Python 함수를 적용하고 하나 이상의 변수에 결과를 저장합니다. 변수는 기존 변수이거나 새로 만든 변수일 수 있습니다. IBM® SPSS® Statistics 변환 시스템에서 함수가 내장된 경우처럼 표준 Python 라이브러리, Developer Central 모듈 또는 자신이나 다른 사람이 만든 모듈에서 Python 함수를 사용할 수 있습니다.  <p class="step">이 프로시저를 실행하려면 메뉴에서 다음을 선택합니다.</p>
+
+  <p class="menuselection">&nbsp;변환<br>
+  &nbsp;&nbsp;Programmability 변환...</p>
+
+  <p><span class="runinhead">결과 변수.</span> 일반적으로 하나의 함수는 단일 숫자
+  또는 문자열 값을 반환하지만 여러 함수는 단일 케이스에 대한 여러 값을
+  반환할 수 있습니다. 함수가 반환할 값만큼의 변수 이름을 입력합니다. 함수가 일부 또는 모든 케이스에 대해 더 적은 값을 반환할 경우 추가 변수가 시스템에서 누락되었거나 문자열인 경우 비어 있는 것입니다.</p>
+
+  <p><span class="runinhead">유형 코드.</span> 각 결과 변수에 대한 유형 코드를
+  입력합니다. 숫자 변수의 경우 0을 입력하고 문자열의 경우 길이를 바이트 단위로 입력합니다.</p>
+
+  <p class="bullet">•&nbsp;기존 변수의 유형을 변경할 경우
+  해당 값이 손실되어 변환 수식에 사용하지 못할 수 있습니다.</p>
+
+  <p><span class="runinhead">변환 수식.</span> 호출할 모듈 및 함수와
+  모수 이름 및 값을 괄호로 묶어 지정하는 표현식을 입력합니다. 예를 들어, <em>sample</em>이라는 모듈에 <em>f</em>라는 함수가 있고 두 개의 모수인 <em>x</em> 및 <em>y</em>가 사용될 경우 다음을 작성할 수 있습니다.</p>
+
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class=
+  "code">sample.f(x=firstvar, y=secondvar)</span></p>
+
+  <p>firstvar 및 secondvar는 활성 데이터 세트의 변수 이름입니다.</p>
+
+  <p class="bullet">•&nbsp;모듈 이름을 생략할 경우 함수는
+  현재 세션의 이전 BEGIN PROGRAM 블록에 정의되었거나
+  내장된 Python 함수로 간주됩니다.</p>
+
+  <p class="bullet">•&nbsp;이름이 지정되지 않은 모수가 함수에 있는 경우
+  명령문에서 "parm="을 생략합니다.</p>
+
+  <p class="bullet">•&nbsp;모수 값은 IBM SPSS
+  Statistics 변수 이름, 숫자 또는 문자가 될 수 있습니다.</p>
+
+  <p class="bullet">•&nbsp;문자는 " 또는 ' 유형 중 하나의 삼중 따옴표로
+  묶어야 합니다. 예를 들어, <em>stringvar</em>가 문자변수이고 <em>g</em>가 문자열을 연결하는 함수인 경우 다음과 같습니다.</p>
+
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class=
+  "code">sample.g(x=firstvar, y='''-estimate''')</span></p>
+
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;이 경우 <em>-estimate</em>가
+  각 케이스에 대한 <em>firstvar</em>의 값에 추가됩니다. 동일한 유형의
+  따옴표를 문자를 묶는 따옴표로 사용하려면 이중 따옴표를 사용하고
+  그 앞에 백슬래시를 추가해야 합니다(예: 'abc\''def').</p>
+
+  <p class="bullet">•&nbsp;대괄호로 묶어서 값 세트를
+  함수 목록으로 전달할 수 있습니다(예:  parm=[x,y,z]).</p>
+
+  <p class="bullet">•&nbsp;모듈, 함수 및 모수 이름은 대/소문자를
+  구분합니다. 필요한 대/소문자를 정확하게 매치시켜야 합니다.</p>
+
+  <p class="bullet">•&nbsp;설명서에서 사용할 함수를 참조하여 호출 방법을 확인합니다.</p>
+
+  <p><span class="runinhead">초기화 수식.</span> 변환 수식에
+  초기화가 필요한 클래스가 포함된 경우(예: 조회 테이블) 초기화 표현식을
+  여기에 입력합니다. 초기화 표현식은 케이스 데이터를 전달하기 전에 호출됩니다. 초기화는 변환 수식에서 참조되는 <i>func</i>라는 함수를 생성할 것으로 예상됩니다.</p>
+
+  <p>다음 예제에서는 <i>extendedTransforms</i> 모듈에서
+  vlookup 함수를 적용합니다. 해당 함수에는 조회 값을 포함하는 IBM SPSS Statistics 데이터 세트와 해당 데이터 세트에 있는 키 및 값 변수의 이름이 필요합니다. 사용하려면 이러한 값을 입력하여 변수 x의 값을 조회합니다.</p>
+
+  <p class="bullet">•&nbsp;초기화:<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;<span class=
+  "code">"extendedTransforms.vlookup(key='keyvar',
+  value='valuevar', dataset='lookup')"</span></p>
+
+  <p class="bullet">•&nbsp;변환:<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;<span class="code">"func(x)"</span></p>
+
+  <p><span class="runinhead">사용자 결측값을 시스템 결측값으로 변환
+  </span> Python 함수를 호출하기 전에 사용자 결측값을 시스템 결측값으로 변환하려면
+  이 상자를 선택하십시오. 기본적으로 사용자 결측값은 있는 그대로 전달됩니다.</p>
+
+  <h2>추가 기능 및 정보</h2>
+
+  <p>이 대화 상자는 SPSSINC TRANS 확장 명령에 대한 명령문을 생성합니다. 이 명령에 대한 도움말을 표시하려면 다음 구문을 실행하십시오.</p>
+
+  <p class="codeblock">SPSSINC TRANS /HELP</p>명령문은
+  \t와 같은 이스케이프 시퀀스 값에 대한 추가 제어 기능을 제공합니다.  <p>명령문은 목록에서 TO를 지원하는 VARIABLES 부명령문을 통해 초기 표현식 및 공식에서 변수 목록에 대한
+  축약형을 제공합니다.</p>
+
+  <p>이 명령이 표준 IBM SPSS Statistics 변환 언어와 비슷하게 작동하지만 COMPUTE 명령 등과는 달리 각 SPSSINC TRANS 명령에 데이터 전달이 필요합니다. 이 명령은 DO IF와 같은 IBM SPSS Statistics 변환 블록 안에서 사용할 수 없습니다.</p>
+
+  <p>IBM SPSS Statistics에서 유용한 한 가지 함수 소스는 Developer Central에서 제공되는 extendedTransforms 모듈입니다. 예를 들어, 이 모듈에는 다음을 위한 함수가 있습니다.</p>
+
+  <ul>
+    <li>내장된 날짜 형식보다 유연하게 날짜 문자열 및 날짜 값 사이에 변환합니다(strtodatetime 및 datetimetostr).</li>
+
+    <li>강력한 패턴 언어를 사용하거나(subs, templatesubs) 패턴 발생 개수를 계산하여(matchcount) 문자변수에서 값을 대체합니다.</li>
+
+    <li>비슷한 음의 이름 표현을 계산합니다(soundex, levenshteindistance, jaroWinkler, soundexallvalues).</li>
+
+    <li>조회 테이블에서 값을 검색합니다(vlookup).</li>
+
+    <li>지상의 두 점 사이의 거리를 계산합니다(sphDist, ellipseDist).</li>
+  </ul>텍스트 편집기에서 extendedTransforms.py를 열고 이러한 함수에 대한 설명서를 읽습니다.  <p>Python 수학 모듈에는 표준 변환에서 사용할 수 있는 여러 유용한 함수가 있습니다.</p>
+
+  <ul>
+    <li>비음수 정수의 계승을 계산합니다(factorial).</li>
+
+    <li>쌍곡선 삼각 함수를 계산합니다(acosh, asinh, atanh, cosh, sinh, tanh).</li>
+  </ul>Python 도움말을 열고 목차 패널에서 전역 모듈 색인을 선택하여 Python 표준 라이브러리 색인에서 유용한 함수를 검색할 수 있습니다.  <p>특정 요구 사항을 따를 경우 클래스를 함수로 사용할 수 있습니다. 자세한 내용은 명령문 도움말을 참조하십시오.</p>
+
+  <p>IBM SPSS Statistics 숫자 값은 항상 부동 소수점 숫자로 Python 코드에 전달됩니다. 호출하는 중인 함수에 IBM SPSS Statistics 값에 대한 int가 필요한 경우 Python int 함수를 사용합니다. 그러나 Python에서 sysmis 값은 None 값으로 인식되며 int 함수에 전달될 수 없습니다.</p>
+
+  <p>더 복잡한 표현식을 모수에 사용할 수 있습니다. 자세한 내용은 명령문 도움말을 참조하십시오. 표현식이 매우 복잡한 경우 전체 표현식을 따옴표로 묶어야 할 수 있습니다.</p>
+
+  <h2>요구 사항</h2>
+
+  <p>이 대화 상자를 사용하려면 Integration Plug-In for Python과 SPSSINC TRANS 확장 명령이 필요합니다. IBM SPSS Statistics 19 이상의 경우 이 플러그인과 확장 명령은 Essentials for Python 패키지와 함께 설치됩니다. 자세한 정보는 IBM SPSS Statistics 도움말 시스템의
+  Core System &gt; 자주 묻는 질문에서 통합 플러그인을 얻는 방법을
+  참조하십시오. SPSS 커뮤니티에서 SPSSINC TRANS를 다운로드한 경우 관련된 ReadMe 파일의 지침을 따르십시오.</p><br>
+  <hr>
+
+  <p style="font-size:80%;">© Copyright IBM Corp. 1989, 2013</p>
+</body>
+</html>

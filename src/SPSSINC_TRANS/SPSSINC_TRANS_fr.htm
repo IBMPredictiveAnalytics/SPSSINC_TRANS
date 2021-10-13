@@ -1,0 +1,157 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta http-equiv="Content-Type" content=
+  "text/html; charset=utf-8">
+
+  <title>Appliquer une fonction Python aux données d'observation</title>
+  <style type="text/css">
+
+  <!-- 
+
+  H1 {font-weight:bold; color:#006699; font-size:125%; }
+  H2 {font-weight:bold; color:#006699; font-size:110%; }
+  TABLE {font-size:100%;}
+
+  /* paragraph tags */
+  .step {text-indent: -1.3em; margin-left:1.3em; margin-top: 0px;}
+  .menuselection {margin-left:10px}
+  .bullet {list-style-type: disc;margin-top:12px; margin-left:36px; text-indent:-1em; }
+  .codeblock {background-color: #ffffe6; display:block; margin-left:5px; padding:5px;}
+
+  /* inline tags */
+  .screen {font-weight:bold; color:#408080}                       /*** used refer to on-screen text ***/
+  .name {font-style: italic}                                                       /*** used to tag names, such as variable names, file names, and so forth ***/
+  .runinhead {font-weight: bold} 
+  .superscript {vertical-align:super; font-size:80%}
+  .subscript {vertical-align:sub; font-size:80%}
+
+
+  --> 
+  </style>
+</head>
+
+<body>
+  <h1>Appliquer une fonction Python aux données d'observation</h1>Cette procédure applique une fonction Python aux observations du jeu de données actif et enregistre les résultats dans une ou plusieurs variables. Les variables peuvent être de nouvelles variables ou des variables déjà existantes. Cela vous permet de saisir des fonctions Python depuis la bibliothèque Python standard, depuis les modules Developer Central ou depuis des modules que vous avez créés ou que d'autres personnes ont créés, presque comme si ces fonctions avaient été créées dans le système de transformation IBM® SPSS® Statistics.
+
+  <p class="step">Pour exécuter cette procédure à partir des menus, sélectionnez :</p>
+
+  <p class="menuselection">&nbsp;Transformer<br>
+  &nbsp;&nbsp;Transformation de la programmabilité...</p>
+
+  <p><span class="runinhead">Variable(s) de résultats.</span> Une fonction renvoie
+généralement une valeur numérique ou de chaîne unique mais des fonctions peuvent renvoyer
+plusieurs valeurs pour une observation unique. Saisissez les noms des variables pour toutes les valeurs que la fonction renverra. Si la fonction renvoie moins de valeurs toutes les observations ou pour certaines d'entre elles, les variables supplémentaires seront des valeurs système manquantes ou, pour les chaînes, des valeurs vides.</p>
+
+  <p><span class="runinhead">Code(s) de type.</span> Entrez un code de type pour chaque variable de résultat. Pour une variable numérique, entrez 0. Pour une chaîne, entrez la longueur en octets.</p>
+
+  <p class="bullet">•&nbsp;Si vous modifiez le type d'une variable existante, ses valeurs peuvent être perdues et par conséquent, inutilisables dans la formule de transformation.</p>
+
+  <p><span class="runinhead">Formule de transformation.</span> Entrez une expression indiquant le
+module et la fonction à appeler ainsi que les noms et valeurs des paramètres entre parenthèses. Par exemple, si vous avez une fonction appelée <em>f</em> dans un module appelé <em>sample</em> qui contient deux paramètres, <em>x</em> et <em>y</em>, vous pourrez écrire</p>
+
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class=
+ "code">sample.f(x=firstvar, y=secondvar)</span></p>
+
+  <p>firstvar et secondvar étant les noms des variables dans le jeu de données actif.</p>
+
+  <p class="bullet">•&nbsp;Si vous ne donnez pas de nom au module, la fonction est supposée avoir
+été définie dans un bloc BEGIN PROGRAM précédent dans la session en cours ou être une
+fonction Python intégrée.</p>
+
+  <p class="bullet">•&nbsp;Si la fonction a des paramètres non nommés, ignorez "parm=" dans la
+syntaxe.</p>
+
+  <p class="bullet">•&nbsp;Les valeurs de paramètre peuvent être des noms, des numéros ou des
+chaînes littérales de variables IBM SPSS Statistics.</p>
+
+  <p class="bullet">•&nbsp;Les valeurs littérales doivent être entre des triple apostrophes ou
+guillemets : " ou '. Par exemple si <em>stringvar</em> est une variable de chaîne et <em>g</em> est une fonction qui concatène des chaînes</p>
+
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class=
+ "code">sample.g(x=firstvar, y='''-estimate''')</span></p>
+
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ajoute<em>-estimate</em> à la valeur de <em>firstvar</em> pour chaque observation. Si vous voulez utiliser dans une
+valeur littérale le même type d'apostrophe que celui qui l'entoure vous devez la doubler et la
+faire précéder d'une barre oblique inverse, par exemple, 'abc\''def'.</p>
+
+  <p class="bullet">•&nbsp;Un ensemble de valeurs peut être transmis sous forme de liste à une
+fonction en le plaçant entre crochets, par exemple, parm=[x,y,z].</p>
+
+  <p class="bullet">•&nbsp;Les nom de module, de fonction et de paramètre sont dépendants
+maj/min. Vous devez respecter minutieusement la casse.</p>
+
+  <p class="bullet">•&nbsp;Reportez-vous à la documentation pour savoir comment appeler la
+fonction que vous voulez utiliser.</p>
+
+  <p><span class="runinhead">Formule d'initialisation.</span> Si la formule de transformation
+implique une classe nécessitant une initialisation, comme une table de recherche, entrez
+l'expression d'initialisation ici. Elle sera appelée avant de transmettre les données
+d'observation.
+  L'initialisation doit produire une fonction appelée <i>func</i> à laquelle il sera fait référence dans la formule de transformation.</p>
+
+  <p>L'exemple suivant applique la fonction vlookup dans le module <i>extendedTransforms</i>. Cette fonction nécessite un jeu de données IBM SPSS Statistics contenant les valeurs de recherche et les noms des variables clés et de valeur dans ce jeu de données. Pour l'utiliser, entrez ces valeurs comme valeurs de recherche de la variable x.</p>
+
+  <p class="bullet">•&nbsp;Initialisation :<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;<span class=
+ "code">"extendedTransforms.vlookup(key='keyvar', value='valuevar', dataset='lookup')"</span></p>
+
+  <p class="bullet">•&nbsp;Transformation :<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;<span class="code">"func(x)"</span></p>
+
+  <p><span class="runinhead">Convertir les valeurs utilisateur manquantes en valeurs système
+manquantes</span> Sélectionnez cette case à cocher pour convertir toutes les valeurs utilisateur
+manquantes en valeurs système manquantes avant d'appeler la fonction Python.
+  Par défaut, les valeurs utilisateur manquantes sont transmises telles quelles.</p>
+
+  <h2>Fonctions et informations supplémentaires</h2>
+
+  <p>Cette boîte de dialogue génère une syntaxe pour la commande d'extension SPSSINC TRANS. Pour afficher l'aide de cette commande, exécutez la syntaxe suivante :</p>
+
+  <p class="codeblock">SPSSINC TRANS /HELP.</p>La syntaxe offre un contrôle supplémentaire
+sur les valeurs de séquence d'échappement.\t
+
+  <p>La syntaxe fournit un raccourci pour une liste de variables dans la formule et les
+expressions initiales via une sous-commande VARIABLES prenant en charge TO dans la liste.</p>
+
+  <p>Bien que cette commande fonctionne de la même manière que le langage de transformation IBM SPSS Statistics, contrairement à la commande COMPUTE par exemple, chaque commande SPSSINC TRANS nécessite néanmoins un passage de données.
+  Cette commande ne peut pas être utilisée dans le bloc de transformation IBM SPSS Statistics comme DO IF.</p>
+
+  <p>Une source de fonctions utiles à IBM SPSS Statistics est le module extendedTransforms disponible dans Developer Central. Par exemple, il contient des fonctions pour</p>
+
+  <ul>
+    <li>une conversion entre les chaînes de date et les valeurs de date plus facile qu'avec les formats de date intégrés (strtodatetime et datetimetostr).</li>
+
+    <li>substituer les valeurs dans les variables de chaîne à l'aide d'un puissant langage de motif (subs, templatesubs) ou compter les occurrences des motifs (matchcount).</li>
+
+    <li>calculer les représentations de noms avec la même prononciation (soundex, levenshteindistance, jaroWinkler, soundexallvalues).</li>
+
+    <li>récupérer des valeurs dans un tableau de recherche (vlookup).</li>
+
+    <li>calculer les distances entre deux points géographiques (spsDist, ellipseDist).</li>
+  </ul>Ouvrez extendedTransforms.py dans un éditeur de texte pour lire la documentation sur ces fonctions.
+
+  <p>Le module mathématique Python contient un certain nombre de fonctions utiles non disponibles dans les transformations standard.</p>
+
+  <ul>
+    <li>Calculer la factorielle d'un entier non négatif (factoriel)</li>
+
+    <li>Calculer les fonctions trigonométriques hyperboliques (acosh, asinh, atanh, cosh, sinh, tanh)</li>
+  </ul>Vous pouvez rechercher des fonctions utiles dans l'index de la bibliothèque standard Python en ouvrant l'aide de Python et en sélectionnant l'Index général des modules dans le panneau Contenu.
+
+  <p>Une classe peut être utilisée comme fonction si elle est conforme à certaines conditions. Consultez l'aide de la syntaxe pour plus d'informations.</p>
+
+  <p>Les valeurs numériques IBM SPSS Statistics sont toujours transmises au code Python sous la forme de nombres à virgule flottante. Utilisez la fonction int de Python si la fonction que vous appelez nécessite un entier (int) pour une valeur IBM SPSS Statistics, mais veuillez noter que les valeurs sysmis sont considérées par Python comme des valeurs Nulles et ne peuvent pas être transmises à la fonction int.</p>
+
+  <p>Des expressions plus compliquées peuvent être utilisées comme paramètres. Consultez l'aide de la syntaxe pour plus d'informations. Si votre expression est très compliquée, il peut être nécessaire de mettre l'expression entière entre guillemets.</p>
+
+  <h2>Conditions requises</h2>
+
+  <p>Cette boîte de dialogue requiert le plug-in d'intégration pour Python et la commande d'extension SPSSINC TRANS. Pour IBM SPSS Statistics 19 et versions ultérieures, le plug-in et la commande d'extension sont installés avec le pack Essentials for Python. Pour plus d'informations, reportez-vous à
+Comment obtenir des plug-in d'intégration dans Système central &gt; Questions fréquemment posées dans le système d'aide d'IBM SPSS Statistics. Si vous avez téléchargé SPSSINC TRANS depuis la communauté SPSS, suivez les instructions dans le fichier associé Lisezmoi.</p><br>
+  <hr>
+
+  <p style="font-size:80%;">© Copyright IBM Corp. 1989, 2013</p>
+</body>
+</html>

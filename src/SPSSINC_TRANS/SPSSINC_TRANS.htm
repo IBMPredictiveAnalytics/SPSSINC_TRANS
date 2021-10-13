@@ -1,0 +1,225 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta http-equiv="Content-Type" content=
+  "text/html; charset=utf-8">
+
+  <title>Apply a Python Function to the Case Data</title>
+  <style type="text/css">
+
+  <!-- 
+
+  H1 {font-weight:bold; color:#006699; font-size:125%; }
+  H2 {font-weight:bold; color:#006699; font-size:110%; }
+  TABLE {font-size:100%;}
+
+  /* paragraph tags */
+  .step {text-indent: -1.3em; margin-left:1.3em; margin-top: 0px;}
+  .menuselection {margin-left:10px}
+  .bullet {list-style-type: disc;margin-top:12px; margin-left:36px; text-indent:-1em; }
+  .codeblock {background-color: #ffffe6; display:block; margin-left:5px; padding:5px;}
+
+  /* inline tags */
+  .screen {font-weight:bold; color:#408080}                       /*** used refer to on-screen text ***/
+  .name {font-style: italic}                                                       /*** used to tag names, such as variable names, file names, and so forth ***/
+  .runinhead {font-weight: bold} 
+  .superscript {vertical-align:super; font-size:80%}
+  .subscript {vertical-align:sub; font-size:80%}
+
+
+  --> 
+  </style>
+</head>
+
+<body>
+  <h1>Apply a Python Function to the Case Data</h1>This procedure
+  applies a Python function to the cases in the active dataset and
+  saves the results in one or more variables. The variables can be
+  existing or created new. This allows you to tap Python functions
+  from the standard Python library, from Developer Central modules,
+  or modules you or others create almost as if these functions were
+  built in to the IBM® SPSS® Statistics transformation system.
+
+  <p class="step">To run this procedure, from the menus choose:</p>
+
+  <p class="menuselection">&nbsp;Transform<br>
+  &nbsp;&nbsp;Programmability Transformation...</p>
+
+  <p><span class="runinhead">Result Variable(s).</span> Typically a
+  function returns a single numeric or string value, but functions
+  can return multiple values for a single case. Enter variable
+  names for as many values as the function will return. If the
+  function returns fewer values for some or all cases, the extra
+  variables will be system missing or, for strings, blank.</p>
+
+  <p><span class="runinhead">Type Code(s).</span> Enter a type code
+  for each result variable. For a numeric variable, enter 0. For a
+  string, enter the length in bytes.</p>
+
+  <p class="bullet">•&nbsp;If you change the type of an existing
+  variable, its values may be lost and, hence unavailable for use
+  in the transformation formula.</p>
+
+  <p><span class="runinhead">Transformation Formula.</span> Enter
+  an expression specifying the module and function to call and the
+  parameter names and values enclosed in parentheses. For example,
+  if you have a function named <em>f</em> in a module named
+  <em>sample</em> and it takes two parameters, <em>x</em> and
+  <em>y</em>, you might write</p>
+
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class=
+  "code">sample.f(x=firstvar, y=secondvar)</span></p>
+
+  <p>firstvar and secondvar would be variable names in the active
+  dataset.</p>
+
+  <p class="bullet">•&nbsp;If you omit the module name, the
+  function is assumed to have been defined in a previous BEGIN
+  PROGRAM block in the current session or to be a built-in Python
+  function.</p>
+
+  <p class="bullet">•&nbsp;If the function has parameters that are
+  not named, omit the "parm=" from the syntax.</p>
+
+  <p class="bullet">•&nbsp;Parameter values can be IBM SPSS
+  Statistics variable names, numbers, or string literals.</p>
+
+  <p class="bullet">•&nbsp;Literals must be enclosed in triple
+  quotes of either type: " or '. For example, if <em>stringvar</em>
+  is a string variable and <em>g</em> is a function that
+  concatenates strings</p>
+
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class=
+  "code">sample.g(x=firstvar, y='''-estimate''')</span></p>
+
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;would append <em>-estimate</em>
+  to the value of <em>firstvar</em> for each case. In order to use
+  the same type of quote in a literal as the quotes that surround
+  it, you must double the quote and
+  precede it with a backslash--for example, 'abc\''def'.</p>
+
+  <p class="bullet">•&nbsp;A set of values can be passed as a list
+  to a function by enclosing them in square brackets--for example,
+  parm=[x,y,z].</p>
+
+  <p class="bullet">•&nbsp;Module, function, and parameter names
+  are case sensitive. You must match the required case exactly.</p>
+
+  <p class="bullet">•&nbsp;Consult the documentation for the
+  function you want to use to determine how to call it.</p>
+
+  <p><span class="runinhead">Initialization Formula.</span> If the
+  transformation formula involves a class that requires
+  initialization, such as a lookup table, enter the initialization
+  expression here. It will be invoked before passing the case data.
+  The initialization is expected to produce a function named
+  <i>func</i> that would be referred to in the transformation
+  formula.</p>
+
+  <p>The following example applies the vlookup function in the
+  module <i>extendedTransforms</i>. That function requires an IBM
+  SPSS Statistics dataset containing the lookup values and the
+  names of the key and value variables in that dataset. To use it,
+  you would enter these values to lookup values for variable x.</p>
+
+  <p class="bullet">•&nbsp;Initialization:<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;<span class=
+  "code">"extendedTransforms.vlookup(key='keyvar',
+  value='valuevar', dataset='lookup')"</span></p>
+
+  <p class="bullet">•&nbsp;Transformation:<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;<span class="code">"func(x)"</span></p>
+
+  <p><span class="runinhead">Convert user missing values to system
+  missing</span> Check this box to have any user missing values
+  converted to system missing before calling the Python function.
+  By default, user missing values are passed as is.</p>
+
+  <h2>Additional Features and Information</h2>
+
+  <p>This dialog generates syntax for the SPSSINC TRANS extension
+  command. To display help for this command, run the following
+  syntax:</p>
+
+  <p class="codeblock">SPSSINC TRANS /HELP.</p>Syntax provides some
+  additional control over escape sequence values such as \t.
+
+  <p>Syntax provides a shorthand for variable lists in the formula
+  and initial expressions via a VARIABLES subcommand that supports
+  TO in the list.</p>
+
+  <p>Although this command operates similarly to the standard IBM
+  SPSS Statistics transformation language, unlike, for example, the
+  COMPUTE command, each SPSSINC TRANS command requires a data pass.
+  This command cannot be used inside an IBM SPSS Statistics
+  transformation block such as DO IF.</p>
+
+  <p>One source of functions that are useful with IBM SPSS
+  Statistics is the extendedTransforms module available from
+  Developer Central. For example, it has functions for</p>
+
+  <ul>
+    <li>converting between date strings and date values more
+    flexibly than the built-in date formats (strtodatetime and
+    datetimetostr).</li>
+
+    <li>substituting values in string variables using a powerful
+    pattern language (subs, templatesubs) or counting occurrences
+    of patterns (matchcount).</li>
+
+    <li>computing representations of similar sounding names
+    (soundex, levenshteindistance, jaroWinkler,
+    soundexallvalues).</li>
+
+    <li>retrieving values from a lookup table (vlookup).</li>
+
+    <li>computing distances between two points on the earth
+    (sphDist, ellipseDist).</li>
+  </ul>Open extendedTransforms.py in a text editor to read the
+  documentation for these functions.
+
+  <p>The Python math module has a number of useful functions not
+  available in standard transformations.</p>
+
+  <ul>
+    <li>Calculate factorical of a nonnegative integer
+    (factorial)</li>
+
+    <li>Calculate hyperbolic trig functions (acosh, asinh, atanh,
+    cosh, sinh, tanh)</li>
+  </ul>You can search the Python Standard Library index for useful
+  functions by opening the Python help and selecting the Global
+  Module Index in the Contents panel.
+
+  <p>A class can be used as the function if it conforms to certain
+  requirements. See the syntax help for details.</p>
+
+  <p>IBM SPSS Statistics numerical values are always passed to the
+  Python code as floating point numbers. Use the Python int
+  function if the function you are calling requires an int for an
+  IBM SPSS Statistics value, but note that sysmis values are seen
+  by Python as None values and cannot be passed to the int
+  function.</p>
+
+  <p>More complicated expressions can be used for parameters. See
+  the syntax help for details. If your expression is very
+  complicated, you may need to enclose the entire expression in
+  quotes.</p>
+
+  <h2>Requirements</h2>
+
+  <p>This dialog requires the Integration Plug-In for Python and
+  the SPSSINC TRANS extension command. For IBM SPSS Statistics 19
+  and higher, the Plug-In and the extension command are installed
+  with the Essentials for Python package. For more information, see
+  How to Get Integration Plug-Ins, under Core System &gt;
+  Frequently Asked Questions in the IBM SPSS Statistics Help
+  system. If you downloaded SPSSINC TRANS from the SPSS Community,
+  then please follow the instructions in the associated readme
+  file.</p><br>
+  <hr>
+
+  <p style="font-size:80%;">© Copyright IBM Corp. 1989, 2013</p>
+</body>
+</html>

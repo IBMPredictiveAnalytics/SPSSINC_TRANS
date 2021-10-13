@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta http-equiv="Content-Type" content=
+  "text/html; charset=utf-8">
+
+  <title>Aplicar uma função Python aos dados do caso</title>
+  <style type="text/css">
+
+  <!-- 
+
+  H1 {font-weight:bold; color:#006699; font-size:125%; }
+  H2 {font-weight:bold; color:#006699; font-size:110%; }
+  TABLE {font-size:100%;}
+
+  /* paragraph tags */
+  .step {text-indent: -1.3em; margin-left:1.3em; margin-top: 0px;}
+  .menuselection {margin-left:10px}
+  .bullet {list-style-type: disc;margin-top:12px; margin-left:36px; text-indent:-1em; }
+  .codeblock {background-color: #ffffe6; display:block; margin-left:5px; padding:5px;}
+
+  /* inline tags */
+  .screen {font-weight:bold; color:#408080}                       /*** used refer to on-screen text ***/
+  .name {font-style: italic}                                                       /*** used to tag names, such as variable names, file names, and so forth ***/
+  .runinhead {font-weight: bold} 
+  .superscript {vertical-align:super; font-size:80%}
+  .subscript {vertical-align:sub; font-size:80%}
+
+
+  --> 
+  </style>
+</head>
+
+<body>
+  <h1>Aplicar uma função Python aos dados do caso</h1>Este procedimento aplica uma função Python aos casos no conjunto de dados ativo e salva os resultados em uma ou mais variáveis. As variáveis podem ser já existentes ou criadas como novas. Isso permite utilizar funções Python da biblioteca padrão Python, dos módulos da Central do desenvolvedor ou dos módulos criados por você ou por outra pessoa quase como se essas funções fossem integradas no sistema de transformação do IBM® SPSS® Statistics.
+
+  <p class="step">Para executar este procedimento, selecione nos menus:</p>
+
+  <p class="menuselection">Transformar<br>
+  &nbsp;&nbsp;Transformação de programabilidade...</p>
+
+  <p><span class="runinhead">Variável(is) de resultado.</span> Geralmente, uma função retorna um único valor numérico ou de sequência de caracteres, mas as funções podem retornar diversos valores para um único caso. Insira nomes de variáveis para quantos valores forem retornados pela função. Se a função retornar menos valores para alguns ou todos os casos, as variáveis extras estarão omissas do sistema ou, no caso de sequências, em branco.</p>
+
+  <p><span class="runinhead">Código(s) de tipo.</span> Insira um código de tipo para cada variável de resultado. Para uma variável numérica, insira 0. Para uma sequência de caracteres, insira o tamanho em bytes.</p>
+
+  <p class="bullet">•&nbsp;Se você alterar o tipo de uma variável existente, seus valores podem ser perdidos e, portanto, tornarem-se indisponíveis para o uso na fórmula de transformação.</p>
+
+  <p><span class="runinhead">Fórmula de Transformação.</span> Insira uma expressão especificando o módulo e a função a serem chamados e os nomes e valores de parâmetro delimitados entre parênteses. Por exemplo, se você tiver uma função chamada <em>f</em> em um módulo chamado <em>sample</em> e ele usar dois parâmetros, <em>x</em> e <em>y</em>, você pode escrever</p>
+
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class=
+  "code">sample.f(x=firstvar, y=secondvar)</span></p>
+
+  <p>firstvar e secondvar seriam nomes de variáveis no conjunto de dados ativo.</p>
+
+  <p class="bullet">•&nbsp;Se você omitir o nome do módulo, supõe-se que a função tenha sido definida em um bloco BEGIN PROGRAM anterior na sessão atual ou que seja uma função Python integrada.</p>
+
+  <p class="bullet">•&nbsp;Se a função tiver parâmetros que não são indicados, omita o "parm=" da sintaxe.</p>
+
+  <p class="bullet">•&nbsp;Valores de parâmetros podem ser nomes de variáveis, números ou literais de sequência de caracteres do IBM SPSS Statistics.</p>
+
+  <p class="bullet">•&nbsp;Os literais devem ser delimitados por aspas triplas, de qualquer tipo: " ou '. Por exemplo, <em>stringvar</em> é uma variável de sequência de caracteres e <em>g</em> é uma função que concatena sequências</p>
+
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class=
+  "code">sample.g(x=firstvar, y='''-estimate''')</span></p>
+
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;incluiria <em>-estimate</em> no valor de <em>firstvar</em> para cada caso. Para usar em um literal o mesmo tipo de aspas que o delimita, você deve duplicar as aspas e inserir uma barra invertida antes delas -- por exemplo, 'abc\''def'.</p>
+
+  <p class="bullet">•&nbsp;Um conjunto de valores pode ser transmitido como uma lista para uma função ao delimitá-lo por colchetes -- por exemplo, parm=[x,y,z].</p>
+
+  <p class="bullet">•&nbsp;Os nomes de módulo, função e parâmetro diferenciam maiúsculas de minúsculas. É necessário seguir o uso de maiúsculas/minúsculas com precisão.</p>
+
+  <p class="bullet">•&nbsp;Consulte a documentação da função que você deseja usar para determinar como chamá-la.</p>
+
+  <p><span class="runinhead">Fórmula de Inicialização.</span> Se a fórmula de transformação envolver uma classe que exige inicialização, como uma tabela de consulta, insira a expressão de inicialização aqui. Ela será chamada antes da transmissão dos dados do caso.
+  Espera-se que a inicialização produza uma função chamada <i>func</i> que seria consultada na fórmula de transformação.</p>
+
+  <p>O exemplo seguinte aplica a função vlookup ao módulo <i>extendedTransforms</i>. Essa função requer um conjunto de dados do IBM SPSS Statistics que contenha os valores de consulta e os nomes das variáveis de chave e valor desse conjunto de dados. Para usá-la, insira esses valores a fim de consultar valores para a variável x.</p>
+
+  <p class="bullet">•&nbsp;Inicialização:<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;<span class=
+  "code">"extendedTransforms.vlookup(key='keyvar',   value='valuevar', dataset='lookup')"</span></p>
+
+  <p class="bullet">•&nbsp;Transformação:<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;<span class="code">"func(x)"</span></p>
+
+  <p><span class="runinhead">Converter valores omissos de usuário para omissos do sistema</span> Marque esta caixa para que qualquer valor omisso do usuário seja convertido para omisso do sistema antes de chamar a função Python.
+  Por padrão, valores omissos de usuário são transmitidos no estado em que se encontram.</p>
+
+  <h2>Recursos e informações adicionais</h2>
+
+  <p>Esta caixa de diálogo gera sintaxe para o comando de extensão SPSSINC TRANSH. Para exibir ajuda para este comando, execute a seguinte sintaxe:</p>
+
+  <p class="codeblock">SPSSINC TRANS /HELP.</p>A sintaxe fornece algum controle adicional sobre valores de sequência de escape, como \t.
+
+  <p>A sintaxe fornece uma abreviação para listas de variáveis na fórmula e expressões iniciais por meio de um subcomando VARIABLES que suporta TO na lista.</p>
+
+  <p>Embora esse comando opere de maneira semelhante à linguagem de transformação padrão do IBM SPSS Statistics, diferentemente do comando COMPUTE, por exemplo, cada comando SPSSINC TRANS requer uma passagem de dados.
+  Esse comando não pode ser usado dentro de um bloco de transformação do IBM SPSS Statistics, como DO IF.</p>
+
+  <p>Uma origem de funções úteis para o IBM SPSS Statistics é o módulo extendedTransforms, disponível na Central do desenvolvedor. Por exemplo, ele contém funções para</p>
+
+  <ul>
+    <li>realizar a conversão entre sequências de data e valores de data de maneira mais flexível do que os formatos de data integrados (strtodatetime e datetimetostr).</li>
+
+    <li>substituir valores em variáveis de sequência de caracteres usando uma poderosa linguagem padrão (subs, templatesubs) ou contar ocorrências de padrões (matchcount).</li>
+
+    <li>calcular representações de nomes semelhantes (soundex, levenshteindistance, jaroWinkler, soundexallvalues).</li>
+
+    <li>recuperar valores de uma tabela de consulta (vlookup).</li>
+
+    <li>calcular distâncias entre dois pontos na Terra (sphDist, ellipseDist).</li>
+  </ul>Abra extendedTransforms.py em um editor de texto para ler a documentação dessas funções.
+
+  <p>O módulo matemático Python tem diversas funções úteis que não estão disponíveis nas transformações padrão.</p>
+
+  <ul>
+    <li>Calcular o fatorial de um número inteiro não negativo (fatorial)</li>
+
+    <li>Calcular funções trigonométricas hiperbólicas (acosh, asinh, atanh, cosh, sinh, tanh)</li>
+  </ul>É possível procurar funções úteis no índice da Biblioteca Padrão Python. Para fazer isso, abra a ajuda do Python e selecione o Índice do módulo global no painel Conteúdos.
+
+  <p>Uma classe pode ser usada como função se atender a determinados requisitos. Para obter detalhes, consulte a ajuda da sintaxe.</p>
+
+  <p>Os valores numéricos do IBM SPSS Statistics são sempre transmitidos ao código Python como números do ponto flutuante. Use a função int Python se a função que você está chamando exigir um int para um valor do IBM SPSS Statistics. No entanto, observe que o Python vê valores sysmis como valores de Nenhum e que esses valores não podem ser transmitidos para a função int.</p>
+
+  <p>É possível usar expressões mais complicadas para parâmetros. Para obter detalhes, consulte a ajuda da sintaxe. Se sua expressão for muito complicada, pode ser necessário delimitar toda a expressão usando aspas.</p>
+
+  <h2>Requisitos</h2>
+
+  <p>Esta caixa de diálogo exige o plug-in de integração para Python e o comando de extensão SPSSINC TRANS. Para o IBM SPSS Statistics 19 e posterior, o Plug-in e o comando de extensão são instalados com o pacote Essentials for Python. Para obter informações adicionais, consulte Como Obter Integration Plug-In, no Sistema Principal &gt; Perguntas mais Frequentes no sistema de ajuda do IBM SPSS Statistics Help. Se você tiver feito o download de SPSSINC TRANS da Comunidade SPSS, siga as instruções do arquivo Leia-me associado.</p><br>
+  <hr>
+
+  <p style="font-size:80%;">© Copyright IBM Corp. 1989, 2013</p>
+</body>
+</html>
