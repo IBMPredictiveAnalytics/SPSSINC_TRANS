@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta http-equiv="Content-Type" content=
+  "text/html; charset=utf-8">
+
+  <title>Zastosuj funkcję Python do danych zawierających obserwacje</title>
+  <style type="text/css">
+
+  <!-- 
+
+  H1 {font-weight:bold; color:#006699; font-size:125%; }
+  H2 {font-weight:bold; color:#006699; font-size:110%; }
+  TABLE {font-size:100%;}
+
+  /* paragraph tags */
+  .step {text-indent: -1.3em; margin-left:1.3em; margin-top: 0px;}
+  .menuselection {margin-left:10px}
+  .bullet {list-style-type: disc;margin-top:12px; margin-left:36px; text-indent:-1em; }
+  .codeblock {background-color: #ffffe6; display:block; margin-left:5px; padding:5px;}
+
+  /* inline tags */
+  .screen {font-weight:bold; color:#408080}                       /*** used refer to on-screen text ***/
+  .name {font-style: italic}                                                       /*** used to tag names, such as variable names, file names, and so forth ***/
+  .runinhead {font-weight: bold} 
+  .superscript {vertical-align:super; font-size:80%}
+  .subscript {vertical-align:sub; font-size:80%}
+
+
+  --> 
+  </style>
+</head>
+
+<body>
+  <h1>Zastosuj funkcję Python do danych zawierających obserwacje</h1>Procedura ta powoduje zastosowanie funkcji Python do obserwacji w aktywnym zbiorze danych i zapisuje wyniki w jednej lub więcej zmiennych. Mogą to być istniejące zmienne, lub utworzone na nowo. Pozwala to na pobieranie funkcji Python ze standardowej biblioteki Python, z modułów Developer Central lub z modułów tworzonych przez użytkownika lub innych użytkowników tak, jakby były one wbudowane w system przekształceń danych programu IBM® SPSS® Statistics.
+
+  <p class="step">Aby uruchomić tę procedurę, wybierz z menu opcję:</p>
+
+  <p class="menuselection">&nbsp;Przekształcenia<br>
+  &nbsp;&nbsp;Przekształcenie programistyczne...</p>
+
+  <p><span class="runinhead">Zmienne wynikowe.</span> Zwykle funkcja zwraca pojedynczą wartość liczbową lub wartość w postaci łańcucha, ale funkcje mogą zwrócić wiele wartości dla pojedynczej obserwacji. Podaj nazwy zmiennych, dla tylu wartości ile zwróci ta funkcja. Jeśli ta funkcja zwróci mniej wartości dla niektórych, lub dla wszystkich obserwacji, w systemie będzie brakować dodatkowych zmiennych, lub w przypadku łańcuchów, będą puste.</p>
+
+  <p><span class="runinhead">Kody typów.</span> Wprowadź kod typu dla każdej zmiennej wynikowej. Dla zmiennej liczbowej, wprowadź 0. Dla łańcucha, wprowadź długość w bajtach.</p>
+
+  <p class="bullet">•&nbsp;Jeśli zmieni się typ istniejącej zmiennej, może to spowodować utratę jej wartości i nieprzydatność do stosowania we wzorze przekształcenia.</p>
+
+  <p><span class="runinhead">Wzór przekształcenia.</span> Wprowadź wyrażenie określające moduł i funkcję, która ma zostać przywołana oraz nazwy parametrów i wartości umieszczone w nawiasach. Mając na przykład funkcję o nazwie <em>f</em> w module o nazwie <em>próba</em> i używa ona dwóch parametrów, <em>x</em> i <em>y</em>, można napisać</p>
+
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class=
+  "code">sample.f(x= pierwszazm, y= drugazm)</span></p>
+
+  <p>pierwszazm i drugazm to nazwy zmiennych w aktywnym zbiorze danych.</p>
+
+  <p class="bullet">•&nbsp;Jeśli pominie się nazwę modułu, to przyjmuje się, że funkcja została zdefiniowana w poprzednim bloku BEGIN PROGRAM w bieżącej sesji lub jest wbudowaną funkcją Python.</p>
+
+  <p class="bullet">•&nbsp;Jeśli funkcja ma parametry, które nie są nazwane, pomiń wyrażenie „parm=” w komendach.</p>
+
+  <p class="bullet">•&nbsp;Wartościami parametrów mogą być nazwy zmiennych IBM SPSS Statistics, liczby lub łańcuchy literowe.</p>
+
+  <p class="bullet">•&nbsp;Łańcuchy literowe muszą być umieszczone w potrójnym cudzysłowie dowolnego typu: " lub '. Na przykład, jeśli <em>zmienna łańcucha</em> jest zmienną w postaci łańcucha, a <em>g</em> jest funkcją, która stanowi powiązanie łańcuchów</p>
+
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class=
+  "code">sample.g(x= pierwszazm, y= drugazm)</span></p>
+
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;spowoduje dodanie <em>estymacja</em> do wartości <em>pierwszazm</em> dla każdej obserwacji. Aby zapewnić ten sam typ cudzysłowu w łańcuchu tekstowym, który go otacza, należy wstawić podwójny cudzysłów i poprzedzić go ukośnikiem--na przykład, 'abc\''def'.</p>
+
+  <p class="bullet">•&nbsp;Listę wartości można przekazać funkcji jako listę, umieszczając ją w nawiasie kwadratowym--na przykład, parm=[x,y,z].</p>
+
+  <p class="bullet">•&nbsp;Nazwy modułów, funkcji i parametrów uwzględniają wielkość liter. Należy dokładnie dopasować wymaganą wielkość liter.</p>
+
+  <p class="bullet">•&nbsp;Przeczytaj dokumentację dotyczącą funkcji, której chcesz użyć do określenia sposobu jej przywołania.</p>
+
+  <p><span class="runinhead">Wzór inicjalizacji.</span> Jeśli wzór inicjalizacji obejmuje klasę wymagającą inicjalizacji, taką jak wyszukiwanie tabel, wprowadź tutaj wyrażenie inicjalizacji. Zostanie ono przywołane przed przekazaniem danych o obserwacji.
+  Spodziewanym wynikiem inicjalizacji jest utworzenie funkcji o nazwie <i>func</i>, do której będzie się odnosić wzór przekształcenia.</p>
+
+  <p>Poniższy przykład odnosi się do funkcji vlookup w module <i>extendedTransforms</i>. Funkcja ta wymaga zbioru danych IBM SPSS Statistics, zawierającego wartości sprawdzania i nazwy zmiennych klucza oraz zmiennych wartości w zbiorze danych. Aby z niej skorzystać, należy wprowadzić te wartości w celu sprawdzenia wartości dla zmiennej x.</p>
+
+  <p class="bullet">•&nbsp;Inicjalizacja:<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;<span class=
+  "code">"extendedTransforms.vlookup(key='keyvar',
+  value='valuevar', dataset='lookup')"</span></p>
+
+  <p class="bullet">•&nbsp;Przekształcenie:<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;<span class="code">"func(x)"</span></p>
+
+  <p><span class="runinhead">Przekształć brakujące wartości użytkownika na systemowy brak</span> Zaznacz to pole wyboru, aby przekształcić dowolne brakujące wartości użytkownika na brak systemowy przed wywołaniem funkcji Python.
+  Domyślnie brakujące wartości użytkownika są przekazywane bez zmian.</p>
+
+  <h2>Dodatkowe właściwości i informacje</h2>
+
+  <p>To okno dialogowe generuje komendę rozszerzającą SPSSINC TRANS. Aby wyświetlić pomoc dotyczącą tej komendy, uruchom następującą komendę:</p>
+
+  <p class="codeblock">SPSSINC TRANS /HELP.</p>Komendy zapewniają dodatkową możliwość kontroli przy pomocy wartości sekwencji wyjścia, takich jak \t.
+
+  <p>W komendach dostępny jest skrót do list zmiennych we wzorze oraz do wyrażeń inicjalizacji za pośrednictwem opcji VARIABLES, która obsługuje słowo kluczowe TO na liście.</p>
+
+  <p>Mimo że ta komenda działa podobnie do standardowego języka przekształceń IBM SPSS Statistics, inaczej niż np. komenda COMPUTE, każda komenda SPSSINC TRANS wymaga przekazania danych.
+  Komendy tej nie można użyć w bloku przekształcenia IBM SPSS Statistics, takim jak DO IF.</p>
+
+  <p>Jednym ze źródeł funkcji, które są przydatne w programie IBM SPSS Statistics jest moduł extendedTransforms, dostępny w serwisie Developer Central. Na przykład, posiada funkcje do:</p>
+
+  <ul>
+    <li>konwersji łańcuchów daty na wartości daty i na odwrót w sposób bardziej elastyczny, niż wbudowane formaty daty (strtodatetime i datetimetostr).</li>
+
+    <li>zastępowania wartości w zmiennych łańcuchowych przy pomocy wydajnego języka wzorców (subs, templatesubs) lub liczenia wystąpień wzorców (matchcount).</li>
+
+    <li>obliczania występujących, podobnie brzmiących nazw (soundex, levenshteindistance, jaroWinkler, soundexallvalues).</li>
+
+    <li>pobierania wartości z tabeli wyszukiwania (vlookup).</li>
+
+    <li>obliczania odległości między dwoma punktami na ziemi (sphDist, ellipseDist).</li>
+  </ul>Otwórz plik extendedTransforms.py w edytorze tekstowym, aby przeczytać dokumentację dotyczącą tych funkcji.
+
+  <p>Moduł matematyczny Python ma wiele przydatnych funkcji, które są niedostępne w standardowych przekształceniach.</p>
+
+  <ul>
+    <li>Oblicz silnię nieujemnej liczby całkowitej (silnia)</li>
+
+    <li>Oblicz hiperboliczne funkcje trygonometryczne (acos, asin, atan, cos, sin, tan)</li>
+  </ul>Możesz przeszukać standardowy indeks bibliotek Python w celu uzyskania dostępu do przydatnych funkcji, otwierając plik pomocy Python i wybierając Global Module Index w panelu zawartości.
+
+  <p>Klasę można użyć jako funkcję, jeśli jest zgodna z określonymi wymaganiami. Zobacz tematy pomocy na temat składni, aby uzyskać szczegółowe informacje.</p>
+
+  <p>Wartości numeryczne IBM SPSS Statistics są zawsze przekazywane do kodu Python jako liczby zmiennoprzecinkowe. Użyj funkcji Python int, jeśli funkcja, którą przywołujesz wymaga int dla wartości IBM SPSS Statistics, ale zwróć uwagę na fakt, że Python widzi wartości sysmis jako wartości Brak i nie można ich przekazać do funkcji int.</p>
+
+  <p>Jako parametry mogą zostać użyte bardziej skomplikowane wyrażenia. Zobacz tematy pomocy na temat składni, aby uzyskać szczegółowe informacje. Jeśli wyrażenie jest bardzo skomplikowane, może wystąpić konieczność umieszczenia całego wyrażenia w cudzysłowiu.</p>
+
+  <h2>Wymagania</h2>
+
+  <p>To okno dialogowe wymaga zainstalowania wtyczki integracji dla języka Python oraz komendy rozszerzającej SPSSINC TRANS. Dla wersji programu IBM SPSS Statistics 19 i wyższej, wtyczka i komenda rozszerzająca są zainstalowane z pakietem Essentials dla języka Python. W celu uzyskania dalszych informacji, zobacz temat W jaki sposób uzyskać wtyczki integracyjne, wybierając opcję System podstawowy &gt; Często zadawane pytania w systemie pomocy IBM SPSS Statistics. Jeśli komenda rozszerzająca SPSSINC TRANS została pobrana z serwisu Developer Central, należy postępować zgodnie z instrukcjami w odpowiednim pliku readme.</p><br>
+  <hr>
+
+  <p style="font-size:80%;">© Copyright IBM Corp. 1989, 2013</p>
+</body>
+</html>

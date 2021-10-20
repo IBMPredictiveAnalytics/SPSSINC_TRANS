@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta http-equiv="Content-Type" content=
+
+"text/html; charset=utf-8">
+
+  <title>Python 関数をケース データに適用する</title>
+  <style type="text/css">
+
+  <!-- 
+
+  H1 {font-weight:bold; color:#006699; font-size:125%; }
+  H2 {font-weight:bold; color:#006699; font-size:110%; }
+  TABLE {font-size:100%;}
+
+  /* paragraph tags */
+  .step {text-indent: -1.3em; margin-left:1.3em; margin-top: 0px;}
+  .menuselection {margin-left:10px}
+  .bullet {list-style-type: disc;margin-top:12px; margin-left:36px; text-indent:-1em; }
+  .codeblock {background-color: #ffffe6; display:block; margin-left:5px; padding:5px;}
+
+  /* inline tags */
+  .screen {font-weight:bold; color:#408080}                       /*** used refer to on-screen text ***/
+  .name {font-style: italic}                                                       /*** used to tag names, such as variable names, file names, and so forth ***/
+  .runinhead {font-weight: bold} 
+  .superscript {vertical-align:super; font-size:80%}
+  .subscript {vertical-align:sub; font-size:80%}
+
+
+  --> 
+  </style>
+</head>
+
+<body>
+  <h1>Python 関数をケース データに適用する</h1>この手順では、Python 関数を使用中のデータセット内にあるケースに適用し、1 つまたは複数の変数の結果を保存します。変数は既存のものの場合と、新規作成する場合があります。Python 関数を標準 Python ライブラリ、Developer Central モジュール、またはこれらの関数が IBMR SPSSR Statistics 変換システムにほとんど組み込まれているかのように作成されたモジュールから選択できます。
+<p class="step">このプロシージャを実行するには、メニューから次の項目を選択します。</p>
+
+  <p class="menuselection">&nbsp;変換<br>
+  &nbsp;&nbsp;プログラマビリティの変換...</p>
+
+  <p><span class="runinhead">結果の変数:</span> 通常、関数は 1 つの数値または文字列値を返しますが、単一ケースの複数の値を返す場合があります。関数が返す数の変数の名前を入力します。関数が返す数の変数の名前を入力します。
+関数が返す一部またはすべてのケースの値が少ない場合、追加の変数はシステム欠損値、文字列の場合は空白になります。</p>
+
+  <p><span class="runinhead">タイプ コード:</span> 各結果変数のタイプ コードを入力します。数値型変数の場合、0 を入力します。文字列の場合、長さ (バイト) を入力します。</p>
+
+  <p class="bullet">&nbsp;既存の変数のタイプを変更すると、その値が失われ、変換式で使用できなくなることがあります。</p>
+
+  <p><span class="runinhead">変換式:</span> 呼び出すモジュールと関数を指定する式を入力します。パラメータ名と値は括弧で囲みます。たとえば、<em>sample</em> というモジュールに <em>f</em> という関数があり、<em>x</em> と <em>y</em> の 2 つのパラメータを指定する場合、次のようになります。</p>
+
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class=
+  "code">sample.f(x=firstvar, y=secondvar)</span></p>
+
+  <p>firstvar と secondvar はアクティブなデータセットの変数名です。</p>
+
+  <p class="bullet">&nbsp;モジュール名を省略した場合、関数は、現在のセッション内の以前の BEGIN PROGRAM ブロックで定義された関数であるか、組み込み Python 関数であると仮定されます。</p>
+
+  <p class="bullet">&nbsp;名前がないパラメータが関数に含まれる場合は、シンタックスから「parm=」を省略します。</p>
+
+  <p class="bullet">&nbsp;パラメータ値は IBM SPSS Statistics 変数名、数値、または文字列リテラルです。</p>
+
+  <p class="bullet">&nbsp;リテラルは、タイプ " または ' の 3 つの引用符で囲む必要があります。たとえば、<em>stringvar</em> が文字列変数で <em>g</em> が文字列を連結する関数である場合、</p>
+
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class=
+  "code">sample.g(x=firstvar, y='''-estimate''')</span></p>
+
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;が <em>-estimate</em> を各ケースの <em>firstvar</em> の値に追加します。リテラルを囲む引用符と同じタイプの引用符をリテラル内で使用するには、2 つの引用符を入力し、その前に円記号を入力する必要があります (例: 'abc\''def')。</p>
+
+  <p class="bullet">&nbsp;値を角括弧で囲むことにより、値のセットをリストとして関数に渡すことができます (例: parm=[x,y,z])。</p>
+
+  <p class="bullet">•&nbsp;モジュール名、関数名、およびパラメータ名では、大文字と小文字が区別されます。大文字と小文字は正確に一致しなければなりません。
+</p>
+
+  <p class="bullet">&nbsp;関数を呼び出す方法を確認するには、使用する関数についての資料を参照してください。</p>
+
+  <p><span class="runinhead">初期化式:</span> ルックアップ テーブルなどの初期化を必要とするクラスが変換式に含まれる場合は、ここに初期化式を入力します。ケース データを渡す前に呼び出されます。初期化では、変換式で参照される <i>func</i> という関数を作成することが期待されます。</p>
+
+  <p>次の例では、モジュール <i>extendedTransforms</i> の vlookup 関数を適用します。この関数では、ルックアップ値と IBM SPSS Statistics データセットのキー変数および値変数の名前を含む IBM SPSS Statistics データセットが必要です。IBM SPSS Statistics データセットを使用するために、これらの値を変数 x のルックアップ値に入力します。</p>
+
+  <p class="bullet">&nbsp;初期化:<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;<span class=
+  "code">"extendedTransforms.vlookup(key='keyvar',
+  value='valuevar', dataset='lookup')"</span></p>
+
+  <p class="bullet">&nbsp;変換:<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;<span class="code">"func(x)"</span></p>
+
+  <p><span class="runinhead">ユーザー欠損値をシステム欠損値に変換:</span> Python 関数を呼び出す前にすべてのユーザー欠損値をシステム欠損値に変換するには、このボックスにチェック マークを付けます。デフォルトでは、ユーザー欠損値はそのまま渡されます。</p>
+
+  <h2>追加機能および情報</h2>
+
+  <p>このダイアログは、SPSSINC TRANS 拡張コマンドのシンタックスを生成します。このコマンドのヘルプを表示するには、次のシンタックスを実行します。</p>
+
+  <p class="codeblock">SPSSINC TRANS /HELP</p>シンタックスは、\t のようなエスケープ シーケンス値に対する追加コントロールを指定します。
+<p>シンタックスは、リスト内の TO をサポートする VARIABLES サブコマンドによって、式内の変数リストおよび初期式の省略表現を提供します。</p>
+
+  <p>このコマンドは、標準 IBM SPSS Statistics 変換言語と同じように機能しますが、たとえば COMPUTE コマンドと異なり、SPSSINC TRANS コマンドにはデータ パスが必要です。このコマンドは、DO IF のような IBM SPSS Statistics 変換ブロック内では使用できません。</p>
+
+  <p>IBM SPSS Statistics で役立つ関数の 1 つのソースは、Developer Central で入手できる extendedTransforms モジュールです。たとえば、次のことを行う関数があります。</p>
+
+  <ul>
+    <li>組み込みの日付形式 (strtodatetime and datetimetostr) より柔軟に日付文字列と日付値を変換する</li>
+
+    <li>強力なパターン言語 (subs、templatesubs) を使用またはパターンの出現 (matchcount) をカウントして文字列変数に値を代入する</li>
+
+    <li>同様の意味を示す名前 (soundex、levenshteindistance、jaroWinkler、soundexallvalues) 表示の計算。</li>
+
+    <li>ルックアップ テーブルからの値 (vlookup) の取得。</li>
+
+    <li>地上の 2 つの地点間の距離の計算 (sphDist, ellipseDist)。</li>
+  </ul>テキスト エディタで extendedTransforms.py を開き、これらの関数に関するマニュアルを読み込みます。
+<p>Python math モジュールには、標準の変換では使用できない有用な関数が数多くあります。</p>
+
+  <ul>
+    <li>負でない整数の海上を計算する (factorial)</li>
+
+    <li>双曲関数および三角関数を計算する (acosh、asinh、atanh、cosh、sinh、tanh)</li>
+  </ul>Python ヘルプを開き、「コンテンツ」パネルで「グローバル モジュール インデックス」を選択して、Python Standard Library で役立つ関数を検索できます。
+<p>特定の要件を満たす場合、クラスを関数として使用できます。詳細は、シンタックスのヘルプを参照してください。</p>
+
+  <p>IBM SPSS Statistics の数値は常に Python コードに浮動小数点数として渡されます。呼び出す関数に IBM SPSS Statistics 値の int が必要な場合 Python の int 関数を使用しますが、sysmis 値は Python によって None 値としてみなされ、int 関数に渡すことはできません。</p>
+
+  <p>パラメータにはより複雑な式を使用できます。詳細は、シンタックスのヘルプを参照してください。式が非常に複雑な場合、式全体を括弧で囲むことが必要な場合があります。</p>
+
+  <h2>要件</h2>
+
+  <p>このダイアログには Integration Plug-In for Python と SPSSINC TRANS 拡張コマンドが必要です。IBM SPSS Statistics 19 以上の場合、Plug-in と拡張コマンドが Essentials for Python パッケージとともにインストールされます。詳しくは、IBM SPSS Statistics ヘルプ システムの「コア システム」&gt;「よくある質問」の『Integration Plug-In の取得方法』を参照してください。SPSS コミュニティーから SPSSINC TRANS をダウンロードした場合、関連する readme ファイルの指示に従ってください。</p><br>
+  <hr>
+
+  <p style="font-size:80%;">© Copyright IBM Corp. 1989, 2013</p>
+</body>
+</html>

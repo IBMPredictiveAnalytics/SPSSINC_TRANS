@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Extension xmlns="http://spss.com/clementine/extensions" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" debug="false" version="1.0" xsi:schemaLocation="http://spss.com/clementine/extensions http://xml.spss.com/clementine/extensions/CLEFSpecificationFile.xsd">
+	<ExtensionDetails copyright="Licensed Materials - Property of IBM.  IBM SPSS Products: Statistics Common (C) Copyright IBM Corp. 1989, 2013.  US Government Users Restricted Rights - Use, duplication or  disclosure restricted by GSA ADP Schedule Contract with IBM Corp." description="" id="SPSSINC_TRANS" label="" provider="SPSS, Inc." providerTag="spss" version="1.0"/>
+	<Resources>
+		<Bundle id="bundle1" path="SPSSINC_TRANS" type="properties"/>
+	</Resources>
+	<CommonObjects>
+		<Actions>
+			<Action id="SPSSINC_TRANS_action" imagePath="IBMdialogicon.png" label="Programmability Transformation..." labelKey="SPSSINC_TRANS_action.LABEL"/>
+		</Actions>
+	</CommonObjects>
+	<UserInterface>
+		<Controls>
+			<MenuItem action="SPSSINC_TRANS_action" offset="1" showIcon="true" spssMenu="Transform"/>
+		</Controls>
+	</UserInterface>
+	<Node id="SPSSINC_TRANS" label="Programmability Transformation" labelKey="SPSSINC_TRANS.LABEL" type="modelBuilder">
+		<Properties>
+			<Property name="SPSSINC_TRANS" syntax="SPSSINC TRANS %%Results%% %%types%% %%usermissing%%&#10;%%formula%%&#10;%%initial%%&#10;&#10;"/>
+			<Property description="false" name="SPSSINC_TRANS_modal"/>
+			<Property defaultValue="" description="Enter names for as many variables as the function will return" descriptionKey="Results_tooltip.LABEL" isRequired="true" label="Result Variable(s):" labelKey="Results.LABEL" name="Results" syntax="RESULT=%%ThisValue%%" valueType="fieldName"/>
+			<Property defaultValue="" description="Enter a number for each result variable.  0 means numeric; larger values mean strings of that length" descriptionKey="types_tooltip.LABEL" isRequired="true" label="Type Code(s):" labelKey="types.LABEL" name="types" syntax="TYPE=%%ThisValue%%" valueType="string"/>
+			<Property defaultValue="" description="" descriptionKey="formula_tooltip.LABEL" isRequired="true" label="Transformation Formula:" labelKey="formula.LABEL" name="formula" syntax="/FORMULA %%ThisValue%%" valueType="string"/>
+			<Property defaultValue="" description="Enter an expression to be evaluated before the data are passed" descriptionKey="initial_tooltip.LABEL" label="Initialization  Formula:" labelKey="initial.LABEL" name="initial" syntax="/INITIAL %%ThisValue%%" valueType="string"/>
+			<Property defaultValue="false" description="Check this box to convert all user missing values to system missing before calling the Python code" descriptionKey="usermissing_tooltip.LABEL" label="Convert user missing values to system missing" labelKey="usermissing.LABEL" name="usermissing" syntax="USERMISSING=SYSMIS±" valueType="boolean"/>
+		</Properties>
+		<UserInterface>
+			<Tabs>
+				<Tab helpLink="SPSSINC_TRANS.htm">
+					<PropertiesPanel>
+						<TextBoxControl mnemonic="V" mnemonicKey="Results_mnemonic.VALUE" property="Results">
+							<Layout columnWeight="1.0" fill="horizontal" gridColumn="0" gridRow="0" gridWidth="1" rowWeight="0.0"/>
+						</TextBoxControl>
+						<TextBoxControl mnemonic="T" mnemonicKey="types_mnemonic.VALUE" property="types">
+							<Layout columnWeight="1.0" fill="horizontal" gridColumn="0" gridRow="1" gridWidth="1" rowWeight="0.0"/>
+						</TextBoxControl>
+						<TextBoxControl mnemonic="F" mnemonicKey="formula_mnemonic.VALUE" property="formula">
+							<Layout columnWeight="1.0" fill="horizontal" gridColumn="1" gridRow="0" gridWidth="1" rowWeight="0.0"/>
+						</TextBoxControl>
+						<StaticText text="The transformation syntax should be of the form\nmodule.function(parm1=value, parm2=value,...)\nValues can be SPSS Statistics variable names, numbers, or string literals.\nLiterals must be enclosed in triple quotes of either type.\nSee the help for details." textKey="item_13.LABEL">
+							<Layout columnWeight="1.0" fill="none" gridColumn="1" gridRow="1" gridWidth="1" rowWeight="0.0"/>
+						</StaticText>
+						<StaticText text="Result variables can be new or existing.\nThe type code should be 0 for a numeric variable\nand the string length for strings.\nThe type of an existing variable will be changed\nif the new type is different." textKey="item_14.LABEL">
+							<Layout columnWeight="1.0" fill="none" gridColumn="0" gridRow="2" gridWidth="1" rowWeight="0.0"/>
+						</StaticText>
+						<StaticText text="Use this dialog to apply Python functions to the case data.\nIt requires the Integration Plug-In for Python." textKey="item_12.LABEL">
+							<Layout columnWeight="1.0" fill="none" gridColumn="0" gridRow="3" gridWidth="1" rowWeight="1.0"/>
+						</StaticText>
+						<TextBoxControl mnemonic="I" mnemonicKey="initial_mnemonic.VALUE" property="initial">
+							<Layout columnWeight="1.0" fill="horizontal" gridColumn="1" gridRow="2" gridWidth="1" rowWeight="0.0"/>
+						</TextBoxControl>
+						<CheckBoxControl mnemonic="C" mnemonicKey="usermissing_mnemonic.VALUE" property="usermissing">
+							<Layout columnWeight="1.0" fill="none" gridColumn="1" gridRow="3" gridWidth="1" rowWeight="1.0"/>
+						</CheckBoxControl>
+						<StaticText text="This dialog was created using a later version of PASW Statistics\nand certain features may not function as intended." textKey="v17_warning.LABEL">
+							<Layout columnWeight="1.0" fill="horizontal" gridColumn="0" gridRow="4" gridWidth="1" rowWeight="1.0"/>
+						</StaticText>
+					</PropertiesPanel>
+				</Tab>
+			</Tabs>
+		</UserInterface>
+	</Node>
+</Extension>

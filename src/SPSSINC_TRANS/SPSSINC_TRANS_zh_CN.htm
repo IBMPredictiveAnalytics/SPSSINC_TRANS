@@ -1,0 +1,152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta http-equiv="Content-Type" content=
+  "text/html; charset=utf-8">
+
+  <title>将 Python 函数应用于个案数据</title>
+  <style type="text/css">
+
+  <!-- 
+
+  H1 {font-weight:bold; color:#006699; font-size:125%; }
+  H2 {font-weight:bold; color:#006699; font-size:110%; }
+  TABLE {font-size:100%;}
+
+  /* paragraph tags */
+  .step {text-indent: -1.3em; margin-left:1.3em; margin-top: 0px;}
+  .menuselection {margin-left:10px}
+  .bullet {list-style-type: disc;margin-top:12px; margin-left:36px; text-indent:-1em; }
+  .codeblock {background-color: #ffffe6; display:block; margin-left:5px; padding:5px;}
+
+  /* inline tags */
+  .screen {font-weight:bold; color:#408080}                       /*** used refer to on-screen text ***/
+  .name {font-style: italic}                                                       /*** used to tag names, such as variable names, file names, and so forth ***/
+  .runinhead {font-weight: bold} 
+  .superscript {vertical-align:super; font-size:80%}
+  .subscript {vertical-align:sub; font-size:80%}
+
+
+  --> 
+  </style>
+</head>
+
+<body>
+  <h1>将 Python 函数应用于个案数据</h1>此过程将 Python 函数应用于活动数据集中的个案，并将结果保存在一个或多个变量中。这些变量可以是现有变量或者新建的变量。这允许您使用位于标准
+Python 库、Developer Central 模块或者由您或他人创建的模块中的 Python 函数，就像这些函数是
+IBM® SPSS® Statistics 转换系统的内置函数一样。
+<p class="step">要运行此过程，请从菜单中选择：</p>
+
+  <p class="menuselection">&nbsp;转换<br>
+  &nbsp;&nbsp;可编程性转换...</p>
+
+  <p><span class="runinhead">结果变量</span>。通常，一个函数仅返回单个数字值或字符串值，但是多个函数可以针对单个个案返回多个值。请按函数要返回的值数目输入变量名。如果此函数对于部分或全部个案返回的值较少，那么额外的变量将具有系统缺失值，对于字符串，值为空。</p>
+
+  <p><span class="runinhead">类型代码</span>。请为每个结果变量输入一个类型代码。对于数字变量，请输入 0。对于字符串，请输入以字节为单位的长度。</p>
+
+  <p class="bullet">•&nbsp;如果更改了现有变量的类型，那么该变量的值可能会丢失，从而导致该变量不可在转换公式中使用。</p>
+
+  <p><span class="runinhead">转换公式</span>。请输入表达式，以指定要调用的模块和函数，并且参数名称和值需括在括号内。例如，如果名为 <em>sample</em> 的模块中有一个名为 <em>f</em> 的函数，并且此函数有两个参数 <em>x</em> 和 <em>y</em>，那么您可以将其编写为</p>
+
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class=
+  "code">sample.f(x=firstvar, y=secondvar)</span></p>
+
+  <p>firstvar 和 secondvar 是活动数据集中的变量名。</p>
+
+  <p class="bullet">•&nbsp;如果省略了模块名称，那么将假设此函数已在当前会话的上一个 BEGIN PROGRAM 块中进行定义或者是内置 Python 函数。</p>
+
+  <p class="bullet">•&nbsp;如果函数具有未命名的参数，请省略语法中的“parm=”。</p>
+
+  <p class="bullet">•&nbsp;参数值可以是 IBM SPSS Statistics 变量名、数字或者字符串文字。</p>
+
+  <p class="bullet">•&nbsp;文字必须括在任意类型（" 或 '）的三重引号内。例如，如果 <em>stringvar</em> 是字符串变量，并且 <em>g</em> 是用于并置字符串的函数，那么</p>
+
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class=
+  "code">sample.g(x=firstvar, y='''-estimate''')</span></p>
+
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;将对每个个案的 <em>firstvar</em>
+值追加 <em>-estimate</em>。要在文字中使用括起该文字的引号类型，必须使用双重引号，并且必须在引号前添加反斜杠，例如 'abc\''def'。</p>
+
+  <p class="bullet">•&nbsp;通过将值括在括号内，可以将一组值作为列表传递给函数，例如 parm=[x,y,z]。</p>
+
+  <p class="bullet">•&nbsp;模块名、函数名和参数名均区分大小写。大小写必须严格匹配。</p>
+
+  <p class="bullet">•&nbsp;请参阅要使用的函数的相关文档，以确定其调用方法。</p>
+
+  <p><span class="runinhead">初始化公式</span>。如果转换公式涉及需要初始化的类（例如查找表），请在此处输入初始化表达式。在传递个案数据之前，将先调用此表达式。此初始化应该会生成名为 <i>func</i> 的函数，转换公式将引用该函数。</p>
+
+  <p>以下示例应用了 <i>extendedTransforms</i> 模块中的 vlookup
+函数。此函数需要使用包含查找值的 IBM SPSS Statistics
+数据集以及该数据集中的键变量名和值变量名。要使用此函数，请输入这些值以查找变量 x 的值。</p>
+
+  <p class="bullet">•&nbsp;初始化：<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;<span class=
+  "code">"extendedTransforms.vlookup(key='keyvar',
+  value='valuevar', dataset='lookup')"</span></p>
+
+  <p class="bullet">•&nbsp;转换：<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;<span class="code">"func(x)"</span></p>
+
+  <p><span class="runinhead">将用户缺失值转换为系统缺失值</span>
+选中此框表示先将所有用户缺失值转换为系统缺失值，然后再调用
+Python 函数。缺失情况下，按原样传递用户缺失值。</p>
+
+  <h2>其他功能和信息</h2>
+
+  <p>此对话框将生成 SPSSINC TRANS 扩展命令的语法。要显示此命令的帮助，请运行以下语法：</p>
+
+  <p class="codeblock">SPSSINC TRANS /HELP。</p>语法还提供了对转义序列值（例如 \t）的一些附加控制。
+
+  <p>借助一个支持在列表中使用 TO 的 VARIABLES 子命令，语法提供了公式和初始表达式中变量列表的速记法。</p>
+
+  <p>尽管此命令的运行方式与标准 IBM SPSS Statistics 转换语言类似，但与
+COMPUTE 命令之类的命令不同，每个 SPSSINC TRANS
+命令都要求进行数据遍历。不得在 IBM SPSS Statistics 转换块（例如 DO IF）中使用此命令。</p>
+
+  <p>对于 IBM SPSS Statistics，一个非常有用的函数来源是 Developer Central
+提供的 extendedTransforms 模块。例如，此模块包含具有以下功能的函数：</p>
+
+  <ul>
+    <li>在日期字符串与日期值之间进行转换，其灵活性优于内置日期格式（strtodatetime
+和 datetimetostr）。</li>
+
+    <li>使用功能强大的模式语言在字符串变量中替换值（subs 和
+templatesubs），或者计算模式的出现次数 (matchcount)。</li>
+
+    <li>计算发音类似的名称的表示（soundex、levenshteindistance、jaroWinkler
+和 soundexallvalues）。</li>
+
+    <li>从查找表中检索值 (vlookup)。</li>
+
+    <li>计算地球上两点之间的距离（sphDist 和 ellipseDist）。</li>
+  </ul>通过在文本编辑器中打开 extendedTransforms.py，可以阅读这些函数的相关文档。
+<p>Python 数学模块提供了众多在标准转换中未提供的实用函数。</p>
+
+  <ul>
+    <li>计算非负整数的阶乘 (factorial)</li>
+
+    <li>计算双曲三角函数（acosh、asinh、atanh、cosh、sinh 和 tanh）</li>
+  </ul>打开 Python 帮助并在“目录”面板中选择“全局模块索引”后，可以在“Python 标准库”索引中搜索有用的函数。
+
+  <p>满足特定要求的类可以用作函数。请参阅语法帮助以获取详细信息。</p>
+
+  <p>IBM SPSS Statistics 数字值始终以浮点数形式传递给
+Python 代码。如果您调用的函数需要类型为 int 的 IBM SPSS Statistics 值，请使用
+Python int 函数，但请注意，Python 将系统缺失值视为 None 值，无法将其传递给
+int 函数。</p>
+
+  <p>可以将更为复杂的表达式用于参数。请参阅语法帮助以获取详细信息。如果表达式非常复杂，那么可能需要将整个表达式括在引号内。</p>
+
+  <h2>要求</h2>
+
+  <p>此对话框需要 Integration Plug-In for Python 和 SPSSINC TRANS
+扩展命令。对于 IBM SPSS Statistics 19 及更高版本而言，此 Plug-In 和扩展命令随
+Essentials for Python 程序包一起安装。有关更多信息，请参阅“IBM SPSS Statistics
+帮助”系统的“核心系统”&gt;“常见问题”中的“如何获取集成插件”。如果您是从
+SPSS Community 下载 SPSSINC TRANS，请按相关自述文件中的指示信息执行操作。</p><br>
+  <hr>
+
+  <p style="font-size:80%;">© Copyright IBM Corp. 1989, 2013</p>
+</body>
+</html>

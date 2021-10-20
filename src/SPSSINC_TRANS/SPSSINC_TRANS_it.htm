@@ -1,0 +1,192 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta http-equiv="Content-Type" content=
+  "text/html; charset=utf-8">
+
+  <title>Applica un funzione Python ai dati del caso</title>
+  <style type="text/css">
+
+  <!-- 
+
+  H1 {font-weight:bold; color:#006699; font-size:125%; }
+  H2 {font-weight:bold; color:#006699; font-size:110%; }
+  TABLE {font-size:100%;}
+
+  /* paragraph tags */
+  .step {text-indent: -1.3em; margin-left:1.3em; margin-top: 0px;}
+  .menuselection {margin-left:10px}
+  .bullet {list-style-type: disc;margin-top:12px; margin-left:36px; text-indent:-1em; }
+  .codeblock {background-color: #ffffe6; display:block; margin-left:5px; padding:5px;}
+
+  /* inline tags */
+  .screen {font-weight:bold; color:#408080}                       /*** used refer to on-screen text ***/
+  .name {font-style: italic}                                                       /*** used to tag names, such as variable names, file names, and so forth ***/
+  .runinhead {font-weight: bold} 
+  .superscript {vertical-align:super; font-size:80%}
+  .subscript {vertical-align:sub; font-size:80%}
+
+
+  --> 
+  </style>
+</head>
+
+<body>
+  <h1>Applica un funzione Python ai dati del caso</h1>Questa
+procedura applica una funzione Python ai casi del
+dataset attivo e salva i risultati in una o più variabili. Le variabili
+possono essere già esistenti o nuove. Ciò consente di
+attingere alle funzioni Python dalla libreria Python standard,
+dai moduli di Developer Central o dai moduli creati dagli utenti,
+come se queste funzioni fossero state create dal sistema di trasformazione di IBM® SPSS® Statistics.
+
+  <p class="step">Per eseguire questa procedura, dai menu scegliere:</p>
+
+  <p class="menuselection">&nbsp;Trasforma<br>
+  &nbsp;&nbsp;Trasformazione di programmabilità...</p>
+
+  <p><span class="runinhead">Variabili risultato.</span> In genere, una
+funzione restituisce un valore numerico o stringa, ma può restituire più valori
+per un singolo caso. Immettere i nomi delle variabili per il numero di valori che verrà restituito dalla funzione. Se
+la funzione restituisce un numero inferiore di valori per alcuni o per tutti i casi, le variabili
+in eccesso saranno mancanti del sistema o, per le stringhe, vuote.</p>
+
+  <p><span class="runinhead">Codici tipo.</span> Immettere un codice tipo per ogni variabile risultato. Per
+una variabile numerica, immettere 0. Per una stringa, immettere la lunghezza in byte.</p>
+
+  <p class="bullet">•&nbsp;Se si modifica il tipo di una variabile esistente, è possibile
+che i valori della variabile vadano persi e non siano disponibili per essere utilizzati nella formula di trasformazione.</p>
+
+  <p><span class="runinhead">Formula di trasformazione.</span> Immettere un'espressione
+che specifica il modulo e la funzione da richiamare e i nomi dei parametri e i
+valori racchiusi tra parentesi. Ad esempio, nel caso di una funzione denominata
+<em>f</em> in un modulo denominato <em>sample</em> che ha due parametri, <em>x</em> e
+<em>y</em>, è possibile scrivere</p>
+
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class=
+  "code">sample.f(x=firstvar, y=secondvar)</span></p>
+
+  <p>firstvar e secondvar sono i nomi delle variabili nel dataset attivo.</p>
+
+  <p class="bullet">•&nbsp;Se il nome del modulo non viene specificato,
+si presuppone che la funzione sia stata definita in un blocco BEGIN PROGRAM precedente
+della sessione corrente o che sia una funzione Python incorporata.</p>
+
+  <p class="bullet">•&nbsp;Se la funzione include parametri senza nome,
+omettere "parm=" dalla sintassi.</p>
+
+  <p class="bullet">•&nbsp;I valori dei parametri possono essere nomi di
+variabili, numeri o letterali di stringa di IBM SPSS Statistics.</p>
+
+  <p class="bullet">•&nbsp;I letterali devono essere racchiusi tra virgolette
+  triple di tipo: " oppure '. Ad esempio, se <em>stringvar</em>
+è una variabile stringa e <em>g</em> è una funzione che concatena le stringhe</p>
+
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class=
+  "code">sample.g(x=firstvar, y='''-estimate''')</span></p>
+
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;accoda <em>-estimate</em>
+al valore di <em>firstvar</em> per ogni caso. Per utilizzare in un letterale
+lo stesso tipo di virgolette delle virgolette che lo racchiudono, raddoppiare le virgolette
+facendole precedere da una barra rovesciata, ad esempio, 'abc\''def'.</p>
+
+  <p class="bullet">•&nbsp;È possibile passare un insieme di valori sotto
+forma di elenco a una funzione racchiudendoli tra parentesi quadre,
+ad esempio, parm=[x,y,z].</p>
+
+  <p class="bullet">•&nbsp;Per i nomi di moduli, funzioni e parametri
+viene fatta distinzione tra maiuscole e minuscole. Specificare le maiuscole e le minuscole esatte.</p>
+
+  <p class="bullet">•&nbsp;Per informazioni su come richiamare la funzione
+che si desidera utilizzare, consultare la documentazione.</p>
+
+  <p><span class="runinhead">Formula di inizializzazione.</span> Se la formula
+di trasformazione include una classe che richiede l'inizializzazione,
+ad esempio, una tabella di ricerca, immettere qui l'espressione di
+inizializzazione. L'espressione verrà richiamata prima del passaggio dei dati del caso.
+  Si
+prevede che l'inizializzazione produca una funzione denominata <i>func</i> a
+cui verrà fatto riferimento nella formula di trasformazione.</p>
+
+  <p>Il seguente esempio si applica alla funzione vlookup nel modulo <i>extendedTransforms</i>. La funzione richiede un dataset di IBM SPSS Statistics contenente
+i valori di ricerca e i nomi delle variabili chiave e valore nel dataset in questione. Per utilizzarla, immettere questi valori per ricercare i valori della variabile x.</p>
+
+  <p class="bullet">•&nbsp;Inizializzazione:<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;<span class=
+  "code">"extendedTransforms.vlookup(key='keyvar',
+  value='valuevar', dataset='lookup')"</span></p>
+
+  <p class="bullet">•&nbsp;Trasformazione:<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;<span class="code">"func(x)"</span></p>
+
+  <p><span class="runinhead">Converti i valori mancanti definiti dall'utente in mancanti del sistema</span>
+Selezionare questa casella per fare in modo che i valori mancanti definiti dall'utente siano convertiti in
+valori mancanti del sistema prima del richiamo della funzione Python.
+  Per impostazione predefinita,
+i valori mancanti definiti dall'utente vengono passati così come sono.</p>
+
+  <h2>Funzioni e informazioni aggiuntive</h2>
+
+  <p>Questa finestra di dialogo genera la sintassi per il comando
+di estensione SPSSINC TRANS. Per visualizzare la guida per questo comando, utilizzare la sintassi riportata di seguito:</p>
+
+  <p class="codeblock">SPSSINC TRANS /HELP.</p>La sintassi fornisce un
+controllo aggiuntivo sui valori della sequenza di escape, ad esempio, \t.
+
+  <p>La sintassi fornisce una forma abbreviata per gli elenchi di variabili nella formula e nelle
+  espressioni iniziali mediante un sottocomando VARIABLES che supporta TO nell'elenco.</p>
+
+  <p>Sebbene questo comando funzioni in maniera
+simile al linguaggio di trasformazione di IBM SPSS Statistics standard,
+a differenza ad esempio del comando COMPUTE, ciascun comando SPSSINC TRANS richiede un passaggio di dati.
+  Questo comando non può essere utilizzato all'interno di un blocco di trasformazione di IBM SPSS Statistics, ad esempio, in DO IF.</p>
+
+  <p>In IBM SPSS Statistics risultano utili le funzioni del modulo extendedTransforms disponibile in Developer Central. Ad esempio, esso contiene le funzioni per</p>
+
+  <ul>
+    <li>convertire stringhe di data e valori di data con maggior flessibilità rispetto
+ai formati di data incorporati (strtodatetime e datetimetostr)</li>
+
+    <li>sostituire i valori
+nelle variabili stringa utilizzando un linguaggio di modelli efficace (subs, templatesubs) o
+contando le occorrenze dei modelli (matchcount).</li>
+
+    <li>calcolare le rappresentazioni di nomi che hanno suoni
+simili (soundex, levenshteindistance, jaroWinkler, soundexallvalues).</li>
+
+    <li>richiamare i valori da una tabella di ricerca (vlookup).</li>
+
+    <li>calcolare le distanze tra due punti sulla Terra (sphDist, ellipseDist).</li>
+  </ul>Aprire extendedTransforms.py in un editor di testo per leggere la documentazione relativa
+a queste funzioni.
+
+  <p>Il modulo matematico Python include diverse funzioni utili, che non sono disponibili nelle trasformazioni standard.</p>
+
+  <ul>
+    <li>Calcolare il fattoriale di un intero non negativo (fattoriale)</li>
+
+    <li>Calcolare le funzioni trigonometriche iperboliche (acosh, asinh, atanh, cosh, sinh, tanh)</li>
+  </ul>È possibile ricercare le funzioni utili nell'indice della
+libreria Python standard aprendo la guida di Python e selezionando Global Module Index nel pannello degli argomenti.
+
+  <p>Se è conforme a determinati requisiti, è possibile utilizzare una classe come funzione. Consultare la guida per la sintassi per i dettagli.</p>
+
+  <p>I valori numerici di IBM SPSS Statistics vengono sempre passati al codice Python come numeri a virgola mobile. Utilizzare la funzione int Python se la funzione che viene richiamata richiede un intero per un
+valore di IBM SPSS Statistics. Si osservi, tuttavia, che i valori sysmis vengono
+considerati da Python come valori None e non possono essere passati alla funzione int.</p>
+
+  <p>Per i parametri è possibile utilizzare espressioni più complicate. Consultare la guida per la sintassi per i dettagli. Se
+l'espressione è molto complicata, potrebbe essere necessario racchiudere tra virgolette l'intera espressione.</p>
+
+  <h2>Requisiti</h2>
+
+  <p>Questa finestra di dialogo richiede Integration Plug-In for Python e il comando di estensione SPSSINC TRANS. Per IBM SPSS Statistics 19 e
+versioni successive, il plug-in e il comando di estensione vengono installati con il package
+Essentials for Python. Per ulteriori informazioni, consultare Come ottenere i plug-in di integrazione
+in Sistema principale &gt; Domande frequenti nella guida in linea di IBM SPSS Statistics. Se il comando di estensione SPSSINC TRANS è stato scaricato da SPSS Community, seguire le istruzioni nel file readme associato.</p><br>
+  <hr>
+
+  <p style="font-size:80%;">© Copyright IBM Corp. 1989, 2013</p>
+</body>
+</html>

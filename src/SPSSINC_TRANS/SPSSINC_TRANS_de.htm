@@ -1,0 +1,138 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta http-equiv="Content-Type" content=
+  "text/html; charset=utf-8">
+
+  <title>Python-Funktion auf die Falldaten anwenden</title>
+  <style type="text/css">
+
+  <!-- 
+
+  H1 {font-weight:bold; color:#006699; font-size:125%; }
+  H2 {font-weight:bold; color:#006699; font-size:110%; }
+  TABLE {font-size:100%;}
+
+  /* paragraph tags */
+  .step {text-indent: -1.3em; margin-left:1.3em; margin-top: 0px;}
+  .menuselection {margin-left:10px}
+  .bullet {list-style-type: disc;margin-top:12px; margin-left:36px; text-indent:-1em; }
+  .codeblock {background-color: #ffffe6; display:block; margin-left:5px; padding:5px;}
+
+  /* inline tags */
+  .screen {font-weight:bold; color:#408080}                       /*** used refer to on-screen text ***/
+  .name {font-style: italic}                                                       /*** used to tag names, such as variable names, file names, and so forth ***/
+  .runinhead {font-weight: bold} 
+  .superscript {vertical-align:super; font-size:80%}
+  .subscript {vertical-align:sub; font-size:80%}
+
+
+  --> 
+  </style>
+</head>
+
+<body>
+  <h1>Python-Funktion auf die Falldaten anwenden</h1>Mit dieser Prozedur wird eine Python-Funktion auf die Fälle im aktiven Dataset angewendet und die Ergebnisse werden in einer oder mehreren Variablen gespeichert. Die Variablen können bereits bestehen oder neu erstellt werden. Auf diese Weise können Sie Python-Funktionen aus der Standardbibliothek von Python, aus Developer Central-Modulen oder aus Modulen, die Sie selbst oder andere erstellt haben, fast genauso wie in das Transformationssystem von IBM® SPSS® Statistics integrierte Funktionen verwenden
+.
+
+  <p class="step">Wählen Sie zur Ausführung dieser Prozedur folgende Optionen aus den Menüs aus:</p>
+
+  <p class="menuselection">&nbsp;Transformieren<br>
+  &nbsp;&nbsp;Programmierbarkeitstransformation...</p>
+
+  <p><span class="runinhead">Ergebnisvariable(n).</span> In der Regel gibt eine Funktion einen einzelnen numerischen Wert oder Zeichenfolgewert zurück, Funktionen können jedoch auch mehrere Werte für einen einzelnen Fall zurückgeben. Geben Sie Variablennamen für so viele Werte ein, wie die Funktion zurückgibt. Wenn die Funktion für einige oder alle Fälle weniger Werte zurückgibt, sind die zusätzlichen Variablen systemdefiniert fehlend bzw. bei Zeichenfolgen leer.</p>
+
+  <p><span class="runinhead">Typencode(s). </span> Geben Sie einen Typencode für jede Ergebnisvariable ein. Bei numerischen Variablen geben Sie den Wert "0" ein, bei Zeichenfolgen die Zeichenfolgelänge in Byte.</p>
+
+  <p class="bullet">•&nbsp;Wenn Sie den Typ einer bestehenden Variablen ändern, gehen möglicherweise die zugehörigen Werte verloren und stehen somit nicht mehr für die Transformationsformel zur Verfügung.</p>
+
+  <p><span class="runinhead">Transformationsformel.</span> Geben Sie einen Ausdruck ein, der das Modul und die aufzurufende Funktion angibt, sowie die Parameternamen und die Werte in Klammern. Bei einer Funktion <em>f</em> in einem Modul mit dem Namen <em>sample</em>, die zwei Parameter, <em>x</em> und <em>y</em> verwendet, könnten Sie beispielsweise Folgendes schreiben:</p>
+
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class=
+  "code">sample.f(x=erstvar, y=zweitvar)</span></p>
+
+  <p>"erstvar" und "zweitvar" sind die Variablennamen im aktiven Dataset.</p>
+
+  <p class="bullet">•&nbsp;Wenn Sie den Modulnamen übergehen, wird davon ausgegangen, dass die Funktion in einem vorangegangenen "BEGIN PROGRAM"-Block in der aktuellen Sitzung definiert wurde oder dass es sich dabei um eine integrierte Python-Funktion handelt.</p>
+
+  <p class="bullet">•&nbsp;Wenn die Funktion Parameter aufweist, die nicht benannt wurden, lassen Sie "parm=" aus der Syntax weg.</p>
+
+  <p class="bullet">•&nbsp;Parameterwerte können Variablennamen von IBM SPSS Statistics, Zahlen oder Zeichenfolgeliterale sein.</p>
+
+  <p class="bullet">•&nbsp;Textzeichenfolgen müssen in dreifache Anführungszeichen des Typs " oder ' eingeschlossen sein. Beispiel: Wenn <em>stringvar</em> eine Zeichenfolgevariable ist und <em>g</em> eine Funktion, die Zeichenfolgen verkettet, gilt Folgendes:</p>
+
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class=
+  "code">sample.g(x=erstvar, y='''-Schätzung''')</span></p>
+
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hängt <em>-Schätzung</em> für jeden Fall an den Wert von <em>erstvar</em> an. Um in einer Textzeichenfolge dieselbe Art von Anführungszeichen zu verwenden, die auch für die die Textzeichenfolge umgebenden Anführungszeichen verwendet wird, müssen Sie das Anführungszeichen verdoppeln und ihm einen umgekehrten Schrägstrich voranstellen. Beispiel: 'abc\''def'.</p>
+
+  <p class="bullet">•&nbsp;Eine Gruppe von Werten kann als Liste an eine Funktion weitergeleitet werden, indem Sie sie in eckige Klammern einschließen. Beispiel: parm=[x,y,z].</p>
+
+  <p class="bullet">•&nbsp;Bei den Namen von Modulen, Funktionen und Parametern wird die Groß- und Kleinschreibung beachtet. Sie müssen jeweils auf exakte Übereinstimmung der Groß- und Kleinschreibung achten.</p>
+
+  <p class="bullet">•&nbsp;Ziehen Sie die Dokumentation zu der jeweiligen Funktion zu Rate, um zu ermitteln, wie sie aufgerufen werden kann.</p>
+
+  <p><span class="runinhead">Initialisierungsformel.</span> Wenn die Transformationsformel eine Klasse beinhaltet, für die Initialisierung erforderlich ist, wie beispielsweise eine Referenztabelle zum Nachschlagen, geben Sie hier den Initialisierungsausdruck ein.
+Er wird vor der Weitergabe der Falldaten aufgerufen.
+  Die Initialisierung soll eine Funktion mit dem Namen <i>func</i> erzeugen, auf die in der Transformationsformel verwiesen wird.</p>
+
+  <p>Im folgenden Beispiel wird die Funktion "vlookup" im Modul <i>extendedTransforms</i> angewendet. Für diese Funktion sind ein IBM SPSS Statistics-Dataset mit den Lookup-Werten sowie die Namen der Schlüssel- und Wertvariablen im Dataset erforderlich. Um es zu verwenden, geben Sie die folgenden Werte ein, um die Werte für die Variable x nachzuschlagen.</p>
+
+  <p class="bullet">•&nbsp;Initialisierung<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;<span class=
+  "code">"extendedTransforms.vlookup(key='schlüsselvar', value='wertvar', dataset='index')"</span></p>
+
+  <p class="bullet">•&nbsp;Transformation:<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;<span class="code">"func(x)"</span></p>
+
+  <p><span class="runinhead">Benutzerdefiniert fehlende Werte in systemdefiniert fehlende Werte konvertieren.</span> Wählen Sie dieses Feld aus, um benutzerdefiniert fehlende Werte in systemdefiniert fehlende Werte zu konvertieren, bevor Sie die Python-Funktion aufrufen.
+  Standardmäßig werden benutzerdefiniert fehlende Werte unverändert übergeben.</p>
+
+  <h2>Weitere Funktionen und Informationen</h2>
+
+  <p>In diesem Dialogfeld wird Syntax für den Erweiterungsbefehl "SPSSINC TRANS" generiert. Führen Sie folgende Syntax aus, um Hilfe für diesen Befehl anzuzeigen:</p>
+
+  <p class="codeblock">SPSSINC TRANS /HELP.</p>Die Syntax bietet zusätzliche Steuerungsmöglichkeiten für Escape-Sequenz-Werte, wie beispielsweise \t.
+
+  <p>Die Syntax bietet eine Kurzform für Variablenlisten in der Formel und ursprüngliche Ausdrücke über einen Unterbefehl VARIABLES, der TO in der Liste unterstützt.</p>
+
+  <p>Dieser Befehl funktioniert zwar ähnlich wie die Standardtransformationssprache von IBM SPSS Statistics, im Gegensatz zu beispielsweise dem Befehl "COMPUTE" ist jedoch für jeden einzelnen Befehl vom Typ "SPSSINC TRANS" ein Datendurchlauf erforderlich.
+  Dieser Befehl kann nicht innerhalb von IBM SPSS Statistics-Transformationsblöcken, wie "DO IF", verwendet werden.</p>
+
+  <p>Eine Quelle von Funktionen, die nützlich für die Verwendung mit IBM SPSS Statistics sind, ist das über Developer Central verfügbare "extendedTransforms"-Modul. Dieses bietet beispielsweise Funktionen für die folgenden Aufgaben:</p>
+
+  <ul>
+    <li>Flexiblere Konvertierung zwischen Datumszeichenfolgen und Datumswerten als bei den integrierten Datumsformaten (strtodatetime, datetimetostr)</li>
+
+    <li>Ersetzen der Werte in Zeichenfolgevariablen mithilfe einer leistungsfähigen Mustersprache (subs, templatesubs) oder Zählen der Vorkommnisse von Mustern (matchcount)</li>
+
+    <li>Berechnen von Darstellungen ähnlich klingender Namen (soundex, levenshteindistance, jaroWinkler, soundexallvalues)</li>
+
+    <li>Abrufen von Werten aus einer Referenztabelle (vlookup)</li>
+
+    <li>Berechnen der Abstände zwischen zwei Punkten auf der Erde (sphDist, ellipseDist)</li>
+  </ul>Öffnen Sie extendedTransforms.py in einem Texteditor, um die Dokumentation zu diesen Funktionen zu lesen.
+
+  <p>Das Python-Mathematikmodul weist eine Reihe nützlicher Funktionen auf, die in Standardtransformationen nicht zur Verfügung stehen.</p>
+
+  <ul>
+    <li>Berechnen der Fakultät einer nicht negativen ganzen Zahl (factorial)</li>
+
+    <li>Berechnen von Hyperbelfunktionen (acosh, asinh, atanh, cosh, sinh, tanh)</li>
+  </ul>Sie können den Index der Python-Standardbibliothek nach nützlichen Funktionen durchsuchen, indem Sie die Python-Hilfe öffnen und im Fenster "Contents" die Option "Global Module Index"  auswählen.
+
+  <p>Eine Klasse kann als Funktion verwendet werden, wenn sie bestimmte Anforderungen erfüllt. Details finden Sie in der Syntaxhilfe.</p>
+
+  <p>Numerische Werte aus IBM SPSS Statistics werden stets als Gleitkommazahlen an den Python-Code übergeben. Verwenden Sie die Python-Funktion "int", wenn die Funktion, die Sie aufrufen, einen Wert aus einem IBM SPSS Statistics-Wert als ganze Zahl benötigt. Beachten Sie jedoch, dass Werte vom Typ "sysmis" (systemdefiniert fehlend) von Python als Werte vom Typ "None" (Kein(e)) betrachtet werden und nicht an die Funktion "int" übergeben werden können.</p>
+
+  <p>Für Parameter können kompliziertere Ausdrücke verwendet werden. Details finden Sie in der Syntaxhilfe. Wenn Ihr Ausdruck sehr kompliziert ist, müssen Sie möglicherweise den gesamten Ausdruck in Anführungszeichen setzen.</p>
+
+  <h2>Anforderungen</h2>
+
+  <p>Für dieses Dialogfeld sind Integrations Plug-In for Python und der Erweiterungsbefehl "SPSSINC TRANS" erforderlich. Bei IBM SPSS Statistics 19 und höher werden das Plug-in und der Erweiterungsbefehl zusammen mit dem Paket "Essentials for Python" installiert. Weitere Informationen finden Sie im Hilfesystem zu IBM SPSS Statistics unter "Core-System &gt; Häufig gestellte Fragen" im Thema "Beziehen von Integrations-Plug-ins". Wenn Sie "SPSSINC TRANS" von SPSS Community heruntergeladen haben, befolgen Sie bitte die Anweisungen in der zugehörigen Readme-Datei.</p><br>
+  <hr>
+
+  <p style="font-size:80%;">© Copyright IBM Corp. 1989, 2013</p>
+</body>
+</html>

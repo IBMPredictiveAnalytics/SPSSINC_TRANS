@@ -1,102 +1,78 @@
-#/***********************************************************************
-# * Licensed Materials - Property of IBM 
-# *
-# * IBM SPSS Products: Statistics Common
-# *
-# * (C) Copyright IBM Corp. 1989, 2014
-# *
-# * US Government Users Restricted Rights - Use, duplication or disclosure
-# * restricted by GSA ADP Schedule Contract with IBM Corp. 
-# ************************************************************************/
-
-# NLS_ENCODING=UTF-8
-# IBMUPYTH
-
-
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR ORGANIZATION
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Translations template for PROJECT.
+# Copyright (C) 2021 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
 #
+
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2014-05-21 17:51+China Standard Time\n"
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2021-10-11 00:54-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
-"Content-Transfer-Encoding: ENCODING\n"
-"Generated-By: pygettext.py 1.5\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Globalization Pipeline\n"
 
-
-#: SPSSINC_TRANS.py:278
 msgid "---"
-msgstr ""
-"---"
+msgstr "---"
 
-#: SPSSINC_TRANS.py:398
-msgid "The formula specified a class, but the class did not produce a suitable function to call"
+msgid ""
+"The formula specified a class, but the class did not produce a suitable "
+"function to call"
 msgstr ""
-"Wzór ten określał klasę, ale klasa nie generowała przywołania odpowiedniej funkcji"
+"Wzór ten określał klasę, ale klasa nie generowała przywołania odpowiedniej "
 
-#: SPSSINC_TRANS.py:402
 msgid ""
 "The formula references an undefined variable or could not be evaluated:\n"
 msgstr ""
 "Wzór odnosi się do niezdefiniowanej zmiennej lub nie może zostać obliczony:\n"
 
-#: SPSSINC_TRANS.py:410
 msgid "Function returned too many values.  Number expected: %s"
-msgstr ""
-"Funkcja ta zwracała za dużo wartości. Oczekiwana liczba: %s"
+msgstr "Funkcja ta zwracała za dużo wartości. Oczekiwana liczba: %s"
 
-#: SPSSINC_TRANS.py:440
 msgid ""
-"The specified function or class was given without a module name\nand was not found in a previous BEGIN PROGRAM block \nand is not a built-in function: "
+"The specified function or class was given without a module name\nand was not "
+"found in a previous BEGIN PROGRAM block \nand is not a built-in function: "
 msgstr ""
-"Określona funkcja lub klasa została podana bez nazwy modułu \ni nie została znaleziona w poprzednim bloku BEGIN PROGRAM \noraz nie jest to funkcja wbudowana: "
+"Określona funkcja lub klasa została podana bez nazwy modułu \ni nie została "
+"znaleziona w poprzednim bloku BEGIN PROGRAM \noraz nie jest to funkcja "
+"wbudowana: "
 
-#: SPSSINC_TRANS.py:466
+msgid "The formula syntax given is invalid:\n"
+msgstr "Podana składnia wzoru jest nieprawidłowa:\n"
+
 msgid ""
-"The formula syntax given is invalid:\n"
+"Error: the expression is invalid.  Check for unbalanced parentheses or quotes "
+"or a missing =: %s"
 msgstr ""
-"Podana składnia wzoru jest nieprawidłowa:\n"
+"Błąd: niepoprawne wyrażenie. Sprawdź występowanie otwartych nawiasów, "
+"cudzysłowu lub braku =: %s"
 
-#: SPSSINC_TRANS.py:491
-msgid "Error: the expression is invalid.  Check for unbalanced parentheses or quotes or a missing =: %s"
-msgstr ""
-"Błąd: niepoprawne wyrażenie. Sprawdź występowanie otwartych nawiasów, cudzysłowu lub braku =: %s"
-
-#: SPSSINC_TRANS.py:534
-msgid "The number of variable type values differs from the number of result variables"
+msgid ""
+"The number of variable type values differs from the number of result variables"
 msgstr ""
 "Liczba wartości typów zmiennej różni się od liczby zmiennych wynikowych"
 
-#: SPSSINC_TRANS.py:549
 msgid "Either neither or both names must exist in TO"
-msgstr ""
-"Albo żadna albo obie nazwy muszą występować po słowie kluczowym TO"
+msgstr "Albo żadna albo obie nazwy muszą występować po słowie kluczowym TO"
 
-#: SPSSINC_TRANS.py:552
 msgid "Variables in TO are not in file order: %s, %s"
 msgstr ""
 "Zmienne po słowie TO są w kolejności innej niż porządek w pliku: %s, %s"
 
-#: SPSSINC_TRANS.py:568
 msgid "TO cannot start or end the result list"
-msgstr ""
-"TO nie może zaczynać się ani kończyć listą wynikową"
+msgstr "TO nie może zaczynać się ani kończyć listą wynikową"
 
-#: SPSSINC_TRANS.py:590
 msgid "New variables used with TO must have a numerical suffix"
+msgstr "Nowe zmienne używane ze słowem TO muszą mieć przyrostek liczbowy"
+
+msgid ""
+"New variables used with TO must have the same prefix and ascending numerical "
+"parts: %s, %s"
 msgstr ""
-"Nowe zmienne używane ze słowem TO muszą mieć przyrostek liczbowy"
-
-#: SPSSINC_TRANS.py:594
-msgid "New variables used with TO must have the same prefix and ascending numerical parts: %s, %s"
-msgstr ""
-"Nowe zmienne używane ze słowem TO muszą mieć ten sam przedrostek i elementy liczbowe w kolejności rosnącej: %s, %s"
-
-
-
+"Nowe zmienne używane ze słowem TO muszą mieć ten sam przedrostek i elementy "
+"liczbowe w kolejności rosnącej: %s, %s"
