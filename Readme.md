@@ -10,7 +10,7 @@ Requirements
 Note: For users with IBM SPSS Statistics version 19 or higher, the SPSSINC TRANS extension is installed as part of IBM SPSS Statistics-Essentials for Python.
 
 ---
-Installation intructions
+Installation instructions
 ----
 1. Open IBM SPSS Statistics
 2. Navigate to Utilities -> Extension Bundles -> Download and Install Extension Bundles
@@ -21,7 +21,7 @@ License
 ----
 
 - Apache 2.0
-                              
+
 Contributors
 ----
 

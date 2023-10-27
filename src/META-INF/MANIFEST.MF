@@ -5,15 +5,15 @@ Command-Specs: SPSSINC_TRANS.xml
 Code-Files: SPSSINC_TRANS.py
 Misc-Files: extsyntax.css,IBMdialogicon.png,markdown.html
 Summary: Apply a Python function to case data.
-Description: This procedure applies a Python function to the cases in 
+Description: This procedure applies a Python function to the cases in
  the active dataset and saves the results to one or more new or existi
- ng variables. This allows you to apply Python functions to your case 
+ ng variables. This allows you to apply Python functions to your case
  data, much like you do with built-in functions such as those availabl
  e with the COMPUTE command.
 Author: JKP, IBM SPSS
-Version: 2.0.1
+Version: 2.0.2
 Product-Version: 24
-Date: 1/2/2014
+Date: 27/10/2023
 Product-Version-Maximum: 99
 Categories: Extension Commands, Python
 Plugins: Python
