@@ -10,23 +10,23 @@
 <link rel="stylesheet" type="text/css" href="extsyntax.css" />
 
 
-
-
-
 </head>
 
 <body>
-<h1>SPSSINC TRANS Extension Command</h1>
-
-<p>Execute a transformation defined as a Python function</p>
+<h1>Apply a Python Expression to the Case Data</h1>
+<p>  This procedure
+  applies a Python expression to the cases in the active dataset and
+  saves the results in one or more variables. The variables can be
+  existing or created new. This allows you to tap Python functionality
+  from the standard Python library, from IBM-supplied modules,
+  or from modules you or others create almost as if these functions were
+  built in to the IBM® SPSS® Statistics transformation system.
 <div class="syntax">
-<p>SPSSINC TRANS RESULT=<em>variables</em><sup>&#42;</sup> TYPE=<em>numbers</em> USERMISSING=ASIS<sup>&#42;</sup> or SYSMIS</p>
-
-<p>/INITIAL <em>i-expression</em></p>
-
-<p>/VARIABLES <em>variables</em></p>
-
-<p>/FORMULA &ldquo;<em>f-expression</em>&rdquo;<sup>&#42;</sup></p>
+SPSSINC TRANS RESULT=<em>variables</em><sup>&#42;</sup> TYPE=<em>numbers</em> USERMISSING=ASIS<sup>&#42;</sup> or SYSMIS<br/>
+/INITIAL <em>i-expression</em><br/>
+/VARIABLES <em>variables</em></br/>
+/FORMULA &ldquo;<em>f-expression</em>&rdquo;<sup>&#42;</sup><br/>
+</p>
 
 <p><sup>&#42;</sup> Required<br/>
 <sup>&#42;&#42;</sup> Default</p>
@@ -94,82 +94,98 @@ test for None.  That allows for more selective handling of user missings.</p>
 
 <h2>FORMULA</h2>
 
-<p><strong>f-expression</strong> is the formula to evaluate.  It should have the form<br/>
-<code>modulename.function(parm1=value, parm2=value,...)</code><br/>
-where <code>modulename.function</code> is the Python function to call.  This might be from a
-module in the Python library, an SPSS Community module, or any other source.
-If modulename is omitted, the function is assumed to have been defined in
-a previous BEGIN PROGRAM block executed in the current session,
-or via the INITIAL subcommmand, or,
-it can be a built-in Python function.</p>
+<p><strong>f-expression</strong> is the formula to evaluate.  <ul>
+  <li>The
+  entire formula should be quoted.  Use the alternate type of quotes within the
+  formula or follow the regular Statistics quoting rules.</li>
+  <li>The formula must be a single expression, not a statement.</li>
+  <li>Variable names must be valid as Python identifiers.  This means
+  primarily that they cannot contain a period.  Since Python 3 is entirely Unicode,
+  almost any name valid in Statistics is allowed.  Nonconforming variable names
+  must be renamed in order to use them in the expression.</li>
+  <li>Unlike in Statistics, variable and function names as well as module names are case sensitive.</li>
+  <li>Almost any Python modules and functions can be specified, with the parts
+  separated by a period.  E.g., re.search would refer to the search function in the regular expression
+  module.  In addition there are built-in Python functions that can be called without a module qualifier.
+  Here is a list of some that might be useful.  Consult Python documentation for details.</br>
+  abs, all, any, ascii, bin, bool, bytearray, bytes, chr, complex, divmod, enumerate, filter, float, format, hash, hex, int, isinstance, len, list, map, max, min, oct, open, ord, pow, range, repr, reversed, round, set, setattr, slice, sorted, str, sum, type, zip.</li>
+  <li>Python modules referred to in the formula are automatically imported into Python.  If a function is referred to
+  other than the builtin ones, without a module name, an attempt is made to import it from a preceding BEGIN PROGRAM PYTHON block, but
+  it can also be qualified by the module name "__main__", so __main__.f would refer to the user-written function f 
+  defined in any preceding BEGIN PROGRAM block.</li>
+  <li>This is an example of a function reference:
+  
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class=
+  "code">sample.f(x=firstvar, y=secondvar)</span></p>
 
-<p><strong>parm1, parm2, &hellip;</strong> are the names of the function parameters: each value
-is an existing SPSS Statistics variable name, a number, or a literal string in triple quotes.
-Use opposite-style quotes for literals.  E.g., if the literal contains &ldquo;, use &#39;
-to delimit the string.</p>
+  firstvar and secondvar would be variable names in the active
+  dataset and f would be automatically imported from the sample module.
+  Here is an example that counts the number of occurrences of "a" in variable y.
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class=
+  "code">spssinc trans result = inline 
+    /formula "re.findall('a', y).count('a')".</span></p>
+More directly, you could do this.
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class=
+  "code">spssinc trans result = inline 
+    /formula "len(re.findall('a', y))".</span></p>
+  </li>
+  <li>As a shorthand, a list of variable names can be entered in the Variables field and referred
+  to in the formula as
+   <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class=
+  "code">&lt;></span></p>
+  It will be expanded to a comma-separated list of names.  For example,
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class=
+  "code">sample.f(<>)</span></p> would be expanded to
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class=
+  "code">sample.f(x,y,z)</span></p> if the Variables field is x TO z.</li>
+  <li>A class can also be referred to via the INITIAL subcommand, in which case the classes' __init__ method will be called first.  See details below.</li>
+  <li>The operators and grouping characters in Python are mostly consistent with SPSS Statistics, but while /
+is the same as in SPSS, // is used to refer to integer division, and % is the modulus operator.
+There are additional operators in Python, particularly for bitwise operations.</li>
 
-<p>Literal strings must be enclosed in triple single or double quotes.
-For example, write
-<code>parm1 = &#39;&#39;&#39;abc&quot;def&#39;&#39;&#39;</code></p>
+  <li>Function argument values can be IBM SPSS
+  Statistics variable names, numbers, constants, string literals or expressions
+  using these.</li>
+  <li>Literal strings must be enclosed in single or double quotes.</li>
 
-<p>The parameter expression can be made as a Python list containing variable names, number, and/or literals
-by enclosing the items in square brackets.  For example<br/>
-<code>/formula mymodule.myfunc(variables=[x,y,z, 100], parm=&#39;&#39;&#39;a literal&#39;&#39;&#39;)</code><br/>
-where x, y, and z will be interpreted as variables in the active dataset.  </p>
+  <li>A set of values can be passed as a list
+  to a function by enclosing them in square brackets--for example,
+  parm=[x,y,z].</li>
 
-<p>For functions that have parameters that are not named such as many of the built-in functions,
-omit the &quot;name=&rdquo; part of the call, e.g.,<br/>
-<code>/formula max(paeduc, maeduc)</code></p>
-
-<p>More general Python expressions can be used with some limitations. 
-Standard Python operators except / can be used in parameter expressions,
-e.g. parm1=x+y
-as long as they do not reference something that needs to be imported.
-Since the expression must be valid Python syntax, reserved words such
-as in, with, for, def, and class, among others, cannot be used in it.</p>
-
-<p>You can enclose the entire formula in single or double quotes in order to
-use general expressions.  In this case do not use triple quotes around 
-literals but use the opposite type of quotes or double them according
-to Statistics conventions.</p>
-
-<p>The item named as the function can be a suitable class if the class initialization
-parameters are compatible with the call (but see the INITIAL subcommand).  If a class
-is specified, it is constructed on the first case.  It must create an attribute
-named <em>func</em> that is the actual function to be called.  This provides
-a convenient way to initialize parameters.  See the subs function in
-extendedTransforms.py for an example.</p>
-
-<p>Numerical values are by default passed as float values.  If a function requires
-an argument to be an integer, wrap it in the int function.  For example,<br/>
-<code>/FORMULA mod.f(Year = int(2000), ...)</code><br/>
-Remember that the int function does not accept None values, which is what sysmis becomes.</p>
+  <li>Consult the documentation for the
+  function you want to use to determine how to call it.</li>
+  <li>While the formula must be an expression, not a statement, expressions can
+  include some things that look like a statement.  For example,</br>
+  spssinc trans result=newsal<br/>
+    /formula "x * 1.05 if y == 1 else x * 1.10".
+<p>There is one ambiguous situation in which the formula may fail
+in a puzzling way.  Suppose there is a function named f1 used, and
+there is also a variable named f1 somewhere in the formula.
+ This will likely fail, because the Python interpreter does not know when
+f1 refers to the function and when it refers to the variable when the transformation is executed.  (It is legal in Python to pass a function name as an argument to a function.)
 
 <h2>VARIABLES</h2>
-
 <p>The VARIABLES subcommand can be used to create a Python variable list in 
-the formula or initial expressions that supports SPSS rules.<br/>
-It allows the use of TO according to the rules above for RESULT
-except that all the variables must already exist (since these are inputs).<br/>
+the formula or initial expression that supports SPSS rules.<br/>
+It allows the use of TO but
+all the variables must already exist (since these are inputs).<br/>
 To refer to the variable list in the formula or initial expressions, use
 <code>&lt;&gt;</code> in that expression.  For example,</p>
 
 <pre><code>/VARIABLES= V1 TO V3
 /FORMULA &quot;somefunc(&lt;&gt;, parm=100)&quot;
 </code></pre>
-
 <p>would be interpreted as</p>
-
 <p><code>/FORMULA &quot;somefunc(V1, V2, V3, parm=100)&quot;</code></p>
-
-<p>assuming that V1, V2, and V3 exist.</p>
+</p>
 
 <h2>INITIAL</h2>
-
 <p><strong>INITIAL</strong> can be used to construct a function, which must be named <em>func</em>, that can be
 used in the f-expression.  The expression must be a class constructor, and it will usually
 have a different parameter list from the evaluation function.  Here is an example
-using the vlookup function in extendedTransforms.</p>
+using the vlookup function in extendedTransforms.  The SPSS-supplied
+  module <i>extendedTransforms</i> is installed with Statistics.  It contains over 30
+  functions appropriate for variable transformations.</p>
 
 <pre><code>SPSSINC TRANS RESULT=resultcode TYPE=0
 /INITIAL &quot;extendedTransforms.vlookup(key=&#39;key&#39;, value=&#39;value&#39;, dataset=&#39;lookup&#39;)&quot;
@@ -178,14 +194,14 @@ using the vlookup function in extendedTransforms.</p>
 
 <p><em>vlookup</em> takes a dataset defining a lookup table with key as the lookup key and value
 as the result.  This class returns the actual lookup function named func which is
-then used in the f-expression.</p>
+then used in the f-expression.  There can be only one func in the command.</p>
 
-<p>The automatic constructor call described above can be used, but the likely
-difference in the parameter lists often makes using INITIAL more convenient.
+<p>Since the INITIAL class can have a different parameter list, it provides a convenient
+way to specify parameters that are only needed at initialization time.
 The i-expression is only called once and does not participate in the case-
 processing loop.</p>
 
-<p>The INITIAL expression cannot refer to SPSS variables as they are undefined
+<p>The INITIAL expression cannot refer to SPSS variables as they are undefined to the procedure
 at this point.  If you use the <code>&quot;&lt;&gt;&quot;</code> construct in the initial call, the <code>&lt;&gt;</code>
 is expanded, but to avoid undefined variables, the list needs to be quoted
 just as would be required if an explicit list of SPSS variables was given.
@@ -193,12 +209,14 @@ For example,<br/>
 <code>/VARIABLES salary salbegin /INITIAL   &quot;C(&#39;&lt;&gt;&#39;)&quot;</code><br/>
 would be expanded to<br/>
 <code>C(&#39;salary, salbegin&#39;)</code><br/>
-and the <code>__init__</code> function could use this as appropriate.  Here is a complete,
+and the <code>__init__</code> function could use this as appropriate.  The class __init__ method
+should construct a function named func that can be referred to in the f expression.
+Here is a complete,
 example using an inline class definition.  The result is to
 compute the mean of the listed variables.  In this case, of course,
 the result could be computed more directly.</p>
 
-<pre class="example"><code>begin program.
+<pre class="example"><code>BEGIN PROGRAM PYTHON.
 class C(object):
     def __init__(self, *args):
         self.numvar = len(args[0].split(&quot;,&quot;))
@@ -223,8 +241,7 @@ function definition.</p>
 <p>Example:</p>
 
 <pre class="example"><code>SPSSINC TRANS RESULT=datestring TYPE=30
-FORMULA extendedTransforms.datetimetostr(value=adatevar, pattern=&#39;&#39;&#39;%A, %B %d, %Y&#39;&#39;&#39;).
-</code></pre>
+FORMULA extendedTransforms.datetimetostr(value=adatevar, pattern=&#39;&#39;&#39;%A, %B %d, %Y&#39;&#39;&#39;).</code></pre>
 
 <p>This calls the function <em>datetimetostr</em> in the <em>extendedTransforms</em> module, which converts an
 SPSS date value to a string according to the pattern<br/>
@@ -232,6 +249,25 @@ dayname, monthname day-of-month, 4-digit-year
 and stores the result in the variable <em>datestring</em>, which is made to be a string of length 30.</p>
 
 <p>The parameter names will depend on the particular function called.</p>
+
+<h2>String Methods</h2>
+When using string methods such as split, endswith, capitalize or any of the others,  refer to them as the str module, eg., str.split(x, ",") rather than method syntax such as s.split(",").  Otherwise, the parser may handle them incorrectly.
+
+<h2>The Walrus Operator</h2>
+The walrus operator was introduced in Python 3.8 to allow a variable assignment as a side effect
+of a test, among other uses.  The formula in SPSSINC TRANS can only be a single expression, so
+using := makes more complex formulas possible without resorting to a separate BEGIN PROGRAM block
+or excessive code repetition.  Variables created by := are not treated as SPSS variables in
+evaluating the formula.
+Here is an example of extracting a four-digit year from a string variable that might contain IT while assigning -99 for a
+missing value code. The input is variable datetext, and the FORMULA subcommand would be<br/>
+<pre class="example"><code>FORMULA
+"z.group(0) if (z := re.search(r'\d\d\d\d', datetext)) else -99"
+</code></pre>
+<p>The search function returns a match variable containing information about the match, z, or None if there is no match.
+The group function extracts the matched text, and the if condition ensures that the
+returned value is -99 when no year was found.  Notice that the walrus assignment part is enclosed in parentheses, which are generally necessary when using it.
+
 
 <h3>For Function Authors</h3>
 
@@ -248,8 +284,26 @@ function needs to do some one-time initialization.  It can be accessed as<br/>
     except:
         pass
 </code></pre>
+<h2>Additional Information</h2>
+<p>Although this command operates similarly to the standard IBM
+  SPSS Statistics transformation language, unlike, for example, the
+  COMPUTE command, each SPSSINC TRANS command requires a data pass.
+  This command cannot be used inside an IBM SPSS Statistics
+  transformation block such as DO IF.</p>
+  
+   <p>IBM SPSS Statistics numerical values are always passed to the
+  Python code as floating point numbers. Use the Python int
+  function if the function you are calling requires an int for an
+  IBM SPSS Statistics value, but note that sysmis values are seen
+  by Python as None values and cannot be passed to the int
+  function.</p>
 
-<p>&copy; Copyright IBM Corp. 1989, 2014</p>
+<h2>Historical Note</h2>
+Earlier versions of this command limited the types of expressions that
+could be processed.  The present vesion is much more general.  It also
+has more helpful error messages.</p>
+
+<p>&copy; Copyright IBM Corp. 1989, 2023</p>
 
 </body>
 

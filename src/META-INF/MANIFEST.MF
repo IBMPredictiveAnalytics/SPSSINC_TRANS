@@ -1,19 +1,18 @@
 Name: SPSSINC TRANS
-Display-Name: Apply Python Function to Case Data
-Dialog-Specs: SPSSINC_TRANS.spd
+Dialog-Specs: SPSSINC_TRANS.cfe,SPSSINC_TRANS.spd
 Command-Specs: SPSSINC_TRANS.xml
 Code-Files: SPSSINC_TRANS.py
-Misc-Files: extsyntax.css,IBMdialogicon.png,markdown.html
+Misc-Files: extsyntax.css,IBMdialogicon.png,LICENSE,markdown.html
 Summary: Apply a Python function to case data.
-Description: This procedure applies a Python function to the cases in
+Description: This procedure applies a Python function to the cases in 
  the active dataset and saves the results to one or more new or existi
- ng variables. This allows you to apply Python functions to your case
+ ng variables. This allows you to apply Python functions to your case 
  data, much like you do with built-in functions such as those availabl
  e with the COMPUTE command.
 Author: JKP, IBM SPSS
-Version: 2.0.2
+Version: 2.3.1
 Product-Version: 24
-Date: 27/10/2023
+Date: 1/2/2014
 Product-Version-Maximum: 99
 Categories: Extension Commands, Python
 Plugins: Python
