@@ -1,4 +1,5 @@
 Name: SPSSINC TRANS
+Display-Name: Programmability Transformation
 Dialog-Specs: SPSSINC_TRANS.cfe,SPSSINC_TRANS.spd
 Command-Specs: SPSSINC_TRANS.xml
 Code-Files: SPSSINC_TRANS.py
