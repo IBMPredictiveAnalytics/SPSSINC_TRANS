@@ -41,7 +41,7 @@ except:
     pass
 
 import inspect, re, sys, ast
-import spss
+import spss, extendedTransforms
 from extension import Template, Syntax, processcmd
 from spssdata import ismissing
 
