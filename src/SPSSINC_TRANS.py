@@ -3,7 +3,7 @@
 # *
 # * IBM SPSS Products: Statistics Common
 # *
-# * (C) Copyright IBM Corp. 1989, 2023
+# * (C) Copyright IBM Corp. 1989, 2023, 2026
 # *
 # * US Government Users Restricted Rights - Use, duplication or disclosure
 # * restricted by GSA ADP Schedule Contract with IBM Corp. 
@@ -13,7 +13,7 @@
 
 
 __author__  =  'spss, jkp'
-__version__ =  '1.3.0'
+__version__ =  '1.3.1'
 version = __version__
 
 # history
@@ -26,22 +26,23 @@ version = __version__
 # 18-mar-2013 change variable creation code
 # 12-jun-2014 guard None values in character data
 # 23-sep-2023 switch formula parsing to be ast based
+# 10-jun-2026 Change INITIALIZE code for importing due to Python code changes
 
 
 
     ##debugging
 # debugging
         # makes debug apply only to the current thread
-try:
-    import wingdbstub
-    import threading
-    wingdbstub.Ensure()
-    wingdbstub.debugger.SetDebugThreads({threading.get_ident(): 1})
-except:
-    pass
+#try:
+    #import wingdbstub
+    #import threading
+    #wingdbstub.Ensure()
+    #wingdbstub.debugger.SetDebugThreads({threading.get_ident(): 1})
+#except:
+    #pass
 
-import inspect, re, sys, ast
-import spss, extendedTransforms
+import inspect, re, sys, ast, importlib
+import spss
 from extension import Template, Syntax, processcmd
 from spssdata import ismissing
 
@@ -400,7 +401,8 @@ def initialize(expr):
     mo = re.match(r"(.*?)\..*\(?", expr)
     if mo:  # a module name was given
         modname = mo.group(1)
-        exec("import " + modname)
+        ###exec("import " + modname)  # does not work in Python 3.13
+        globals()[modname] = importlib.import_module(modname)
         sys.modules["__main__"].func = eval(expr).func
     else:  # presume that class has been defined in main context
         sys.modules["__main__"].func = eval("sys.modules['__main__']." + expr).func
